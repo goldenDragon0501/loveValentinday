@@ -148,6 +148,11 @@ export function Feed() {
   return (
     <section id="incluye" className="tex-linen relative bg-blush py-28 sm:py-32">
       <RibbonEdge color="var(--c-blush)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -right-6 top-[10%] text-5xl opacity-10 anim-float" style={{ "--dur": "9s" } as React.CSSProperties}>🍫</span>
+        <span className="absolute left-[5%] top-[35%] text-4xl opacity-12 anim-drift" style={{ "--dur": "11s", "--delay": "1s" } as React.CSSProperties}>💖</span>
+        <span className="absolute right-[8%] bottom-[12%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2s" } as React.CSSProperties}>🧁</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">
@@ -174,6 +179,10 @@ export function Gift() {
   return (
     <section id="regala" className="tex-paper relative bg-bg py-24 sm:py-28">
       <TornEdge color="var(--c-bg)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute right-[3%] top-[15%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s" } as React.CSSProperties}>💌</span>
+        <span className="absolute left-[6%] bottom-[18%] text-4xl opacity-12 anim-float" style={{ "--dur": "8s", "--delay": "1.5s" } as React.CSSProperties}>💗</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="max-w-3xl">
           <Reveal><Eyebrow icon="gift">Regala amor</Eyebrow></Reveal>
@@ -192,8 +201,12 @@ export function Gift() {
 export function About() {
   const share = useShare();
   return (
-    <section id="sobre" className="relative bg-surface-2 py-24 sm:py-28">
+    <section id="sobre" className="relative bg-surface-2 py-24 sm:py-28 overflow-hidden">
       <ArchEdge color="var(--c-surface-2)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -left-4 top-[25%] text-5xl opacity-10 anim-float" style={{ "--dur": "9s", "--delay": "0.5s" } as React.CSSProperties}>🎀</span>
+        <span className="absolute right-[5%] bottom-[10%] text-4xl opacity-10 anim-drift" style={{ "--dur": "11s", "--delay": "2s" } as React.CSSProperties}>✨</span>
+      </div>
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-5 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)]">
         {/* Membership pass on a ribbon */}
         <Reveal variant="left" className="relative pt-24">
@@ -312,6 +325,11 @@ export function Community() {
   return (
     <section id="comunidad" className="tex-paper relative bg-bg py-24 sm:py-28">
       <TornEdge color="var(--c-bg)" seed={11} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute right-[4%] top-[8%] text-5xl opacity-10 anim-float" style={{ "--dur": "10s" } as React.CSSProperties}>📸</span>
+        <span className="absolute -left-4 top-[40%] text-4xl opacity-12 anim-drift" style={{ "--dur": "9s", "--delay": "1s" } as React.CSSProperties}>❤️</span>
+        <span className="absolute right-[7%] bottom-[15%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2.5s" } as React.CSSProperties}>🍓</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="camera" className="justify-center">Comunidad</Eyebrow></Reveal>
@@ -407,8 +425,13 @@ function Countdown() {
 export function Offer() {
   const price = site.price;
   return (
-    <section id="precio" className="tex-paper relative bg-cream py-24 sm:py-28">
+    <section id="precio" className="tex-paper relative bg-cream py-24 sm:py-28 overflow-hidden">
       <TornEdge color="var(--c-cream)" seed={23} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -left-6 top-[18%] text-5xl opacity-10 anim-drift" style={{ "--dur": "11s" } as React.CSSProperties}>🎁</span>
+        <span className="absolute right-[3%] top-[30%] text-4xl opacity-12 anim-float" style={{ "--dur": "8s", "--delay": "1s" } as React.CSSProperties}>💛</span>
+        <span className="absolute left-[10%] bottom-[8%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2s" } as React.CSSProperties}>🍰</span>
+      </div>
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="ticket" className="justify-center">Edición San Valentín 2027</Eyebrow></Reveal>
@@ -507,8 +530,12 @@ export function Faq() {
   }, []);
 
   return (
-    <section id="preguntas" className="tex-linen relative bg-surface-2 py-24 sm:py-28">
+    <section id="preguntas" className="tex-linen relative bg-surface-2 py-24 sm:py-28 overflow-hidden">
       <StitchEdge />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute right-[5%] top-[12%] text-4xl opacity-10 anim-float" style={{ "--dur": "9s" } as React.CSSProperties}>💬</span>
+        <span className="absolute -left-4 bottom-[20%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s", "--delay": "1.5s" } as React.CSSProperties}>💗</span>
+      </div>
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <div>
           <Reveal><Eyebrow icon="chat">Preguntas</Eyebrow></Reveal>
@@ -564,8 +591,12 @@ export function Closing() {
   return (
     <section className="tex-paper relative overflow-hidden bg-bg py-24 text-center sm:py-32">
       <TornEdge color="var(--c-bg)" seed={5} />
-      <AssetImage name="cookie-heart" alt="" sizes="160px" className="pointer-events-none absolute -left-6 top-16 w-28 rotate-[-18deg] drop sm:left-[8%] sm:w-40" />
-      <AssetImage name="cookie-heart" alt="" sizes="160px" className="pointer-events-none absolute -right-4 bottom-10 w-24 rotate-[14deg] drop sm:right-[9%] sm:w-36" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute left-[15%] top-[20%] text-4xl opacity-15 anim-float" style={{ "--dur": "7s" } as React.CSSProperties}>✨</span>
+        <span className="absolute right-[12%] top-[15%] text-5xl opacity-10 anim-drift" style={{ "--dur": "9s", "--delay": "1s" } as React.CSSProperties}>💝</span>
+      </div>
+      <AssetImage name="cookie-heart" alt="" sizes="160px" className="pointer-events-none absolute -left-6 top-16 w-28 rotate-[-18deg] drop anim-float sm:left-[8%] sm:w-40" style={{ "--dur": "8s" } as React.CSSProperties} />
+      <AssetImage name="cookie-heart" alt="" sizes="160px" className="pointer-events-none absolute -right-4 bottom-10 w-24 rotate-[14deg] drop anim-float sm:right-[9%] sm:w-36" style={{ "--dur": "7s", "--delay": "1s", "--rot": "14deg" } as React.CSSProperties} />
       <div className="relative mx-auto max-w-3xl px-5">
         <Reveal as="h2" className="font-script text-[clamp(3.4rem,9vw,7rem)] leading-[1.05] text-rose [text-shadow:0_4px_0_rgb(255_194_26/.55)]">{closing.title}</Reveal>
         <Reveal delay={0.12} className="mt-8 flex justify-center">

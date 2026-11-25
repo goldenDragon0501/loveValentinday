@@ -9,8 +9,12 @@ const credits = [
 
 export function Footer() {
   return (
-    <footer className="tex-linen relative bg-blush pb-10 pt-24 text-ink">
+    <footer className="tex-linen relative bg-blush pb-10 pt-24 text-ink overflow-hidden">
       <FrostingEdge color="var(--c-blush)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -left-4 top-[20%] text-5xl opacity-10 anim-float" style={{ "--dur": "9s" } as React.CSSProperties}>💗</span>
+        <span className="absolute right-[5%] top-[30%] text-4xl opacity-10 anim-drift" style={{ "--dur": "11s", "--delay": "1s" } as React.CSSProperties}>✨</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="flex flex-col items-center text-center">
           <Logo size="lg" />
@@ -18,7 +22,8 @@ export function Footer() {
           <p className="mt-2 font-display text-2xl font-bold text-rose-ink">{site.hashtag}</p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
             <a href={channel.url} target="_blank" rel="noopener noreferrer" className="btn3d sm">
-              <span className="chip"><Icon name="youtube" /></span><span className="max-sm:hidden">{channel.name} en<span className="chip"><Icon name="youtube" /></span>{channel.name} en YouTubenbsp;</span>YouTube
+              <span className="chip"><Icon name="youtube" /></span>
+              <span className="max-sm:hidden">{channel.name} en </span>YouTube
             </a>
             <ShareRow />
           </div>

@@ -72,8 +72,13 @@ function RecipeTile({ r, i }: { r: Recipe; i: number }) {
 
 export function Recipes() {
   return (
-    <section id="recetas" className="tex-linen relative bg-surface-2 py-24 sm:py-28">
+    <section id="recetas" className="tex-linen relative bg-surface-2 py-24 sm:py-28 overflow-hidden">
       <FrostingEdge color="var(--c-surface-2)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute right-[3%] top-[10%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s" } as React.CSSProperties}>🍫</span>
+        <span className="absolute -left-4 top-[45%] text-4xl opacity-12 anim-float" style={{ "--dur": "8s", "--delay": "1.5s" } as React.CSSProperties}>🧁</span>
+        <span className="absolute right-[8%] bottom-[8%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2s" } as React.CSSProperties}>💗</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">

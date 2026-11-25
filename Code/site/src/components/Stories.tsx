@@ -212,6 +212,12 @@ export function Stories() {
   return (
     <section id="calendario" className="tex-linen relative bg-surface-2 pb-24 pt-20 sm:pt-24">
       <FrostingEdge color="var(--c-surface-2)" />
+      {/* Floating decorative accents */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -right-4 top-[12%] text-6xl opacity-10 anim-float" style={{ "--dur": "10s", "--delay": "0s" } as React.CSSProperties}>❤️</span>
+        <span className="absolute left-[6%] top-[30%] text-3xl opacity-15 anim-drift" style={{ "--dur": "8s", "--delay": "1.5s" } as React.CSSProperties}>✨</span>
+        <span className="absolute right-[10%] bottom-[15%] text-4xl opacity-10 anim-sway" style={{ "--dur": "9s", "--delay": "0.5s" } as React.CSSProperties}>🎀</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="calendar" className="justify-center">Del 1 al 14 de febrero</Eyebrow></Reveal>

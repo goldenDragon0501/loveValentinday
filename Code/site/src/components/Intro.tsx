@@ -37,6 +37,13 @@ export function Intro() {
   return (
     <section className="tex-paper relative overflow-hidden bg-bg pb-24 pt-20 sm:pt-24">
       <FrostingEdge color="var(--c-bg)" />
+      {/* Floating decorative accents */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -left-8 top-[15%] text-5xl opacity-20 anim-drift" style={{ "--dur": "9s", "--delay": "0s" } as React.CSSProperties}>💗</span>
+        <span className="absolute right-[5%] top-[8%] text-4xl opacity-15 anim-float" style={{ "--dur": "7s", "--delay": "1s" } as React.CSSProperties}>✨</span>
+        <span className="absolute left-[12%] bottom-[10%] text-3xl opacity-15 anim-sway" style={{ "--dur": "8s", "--delay": "2s" } as React.CSSProperties}>🍰</span>
+        <span className="absolute right-[8%] bottom-[20%] text-5xl opacity-10 anim-drift" style={{ "--dur": "11s", "--delay": "0.5s" } as React.CSSProperties}>💕</span>
+      </div>
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
         <div>
           <Reveal><Eyebrow icon="gift">{intro.eyebrow}</Eyebrow></Reveal>

@@ -13,6 +13,12 @@ export function Route() {
   return (
     <section id="ruta" className="tex-paper relative bg-bg py-24 sm:py-28">
       <ArchEdge color="var(--c-bg)" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -left-6 top-[20%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s", "--delay": "0s" } as React.CSSProperties}>💝</span>
+        <span className="absolute right-[4%] top-[40%] text-3xl opacity-15 anim-float" style={{ "--dur": "7s", "--delay": "2s" } as React.CSSProperties}>🌹</span>
+        <span className="absolute left-[8%] bottom-[8%] text-4xl opacity-10 anim-sway" style={{ "--dur": "9s", "--delay": "1s" } as React.CSSProperties}>✨</span>
+        <span className="absolute right-[6%] bottom-[25%] text-5xl opacity-8 anim-drift" style={{ "--dur": "12s", "--delay": "3s" } as React.CSSProperties}>🎂</span>
+      </div>
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="ticket" className="justify-center">Tu ruta del amor</Eyebrow></Reveal>

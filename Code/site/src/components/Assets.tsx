@@ -6,13 +6,14 @@ type ImageProps = {
   /** Overrides the alt text from assets/images/<name>.json. Use "" for decoration. */
   alt?: string;
   className?: string;
+  style?: React.CSSProperties;
   /** How wide the image is shown, so the browser picks the right file. */
   sizes?: string;
   /** Load at once (above the fold) instead of lazily. */
   priority?: boolean;
 };
 
-export function AssetImage({ name, alt, className, sizes = "100vw", priority = false }: ImageProps) {
+export function AssetImage({ name, alt, className, style, sizes = "100vw", priority = false }: ImageProps) {
   const img = images[name];
   return (
     // display: contents lets the img itself be the layout box, so size classes work inside flex rows.
@@ -30,6 +31,7 @@ export function AssetImage({ name, alt, className, sizes = "100vw", priority = f
         fetchPriority={priority ? "high" : undefined}
         decoding="async"
         className={className}
+        style={style}
       />
     </picture>
   );

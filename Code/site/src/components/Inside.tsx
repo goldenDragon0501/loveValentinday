@@ -53,7 +53,7 @@ function Deck() {
     <ul ref={deck} onPointerMove={onMove} onPointerLeave={onLeave} className="mt-16 grid gap-x-5 gap-y-14 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {categories.map((c, i) => (
         <Reveal as="li" key={c.title} variant="flip" delay={0.08 * i} className="pt-6">
-          <article className="index-card h-full px-6 pb-8 lift" style={{ "--tab": tabs[i] } as React.CSSProperties}>
+          <article className="index-card h-full px-6 pb-8 lift" style={{ "--tab": tabs[i], "--i": i } as React.CSSProperties}>
             <span className="index-tab">0{i + 1}</span>
             <span className="mt-2 grid size-20 place-items-center rounded-[24px] bg-surface text-rose lift">
               {has3D(c.icon) ? <Icon3D name={c.icon} className="size-16" /> : <AssetIcon name={c.icon as AssetIconName} className="size-12" />}
@@ -80,8 +80,13 @@ function Deck() {
 
 export function Inside() {
   return (
-    <section className="tex-paper relative bg-cream pb-0 pt-24 sm:pt-28">
+    <section className="tex-paper relative bg-cream pb-0 pt-24 sm:pt-28 overflow-hidden">
       <TornEdge color="var(--c-cream)" seed={17} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <span className="absolute -right-4 top-[12%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s" } as React.CSSProperties}>🍪</span>
+        <span className="absolute left-[4%] top-[35%] text-4xl opacity-12 anim-float" style={{ "--dur": "8s", "--delay": "1s" } as React.CSSProperties}>💕</span>
+        <span className="absolute right-[7%] bottom-[25%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2s" } as React.CSSProperties}>🍓</span>
+      </div>
       <div className="mx-auto max-w-7xl px-5">
         <div className="max-w-3xl">
           <Reveal><Eyebrow icon="rolling-pin">¿Qué encontrarás dentro?</Eyebrow></Reveal>
