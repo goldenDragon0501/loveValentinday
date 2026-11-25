@@ -48,16 +48,16 @@ export function Intro() {
         <div>
           <Reveal><Eyebrow icon="gift">{intro.eyebrow}</Eyebrow></Reveal>
           <Reveal as="h2" delay={0.08} className="mt-4 font-display text-[clamp(2.6rem,5.6vw,4.8rem)] font-bold leading-[1.03]">
-            {intro.title} <span className="font-script font-normal text-rose">{intro.accent}</span>
+            {intro.title} <span className="font-script font-normal text-water">{intro.accent}</span>
           </Reveal>
           <Reveal as="p" delay={0.16} className="mt-6 max-w-xl text-[clamp(1.1rem,1.6vw,1.3rem)] text-muted">{intro.lead}</Reveal>
           <Reveal delay={0.24} className="mt-9 flex flex-wrap gap-4">
-            <a href="#precio" className="btn3d gold lg"><span className="chip"><Icon name="gift" /></span>Quiero mi calendario</a>
-            <a href="#calendario" className="btn3d cream lg"><span className="chip"><Icon name="heartFill" /></span>Ver los corazones</a>
+            <a href="#precio" className="btn3d gold lg anim-btn-bounce"><span className="chip"><Icon name="gift" /></span>Quiero mi calendario</a>
+            <a href="#calendario" className="btn3d cream lg anim-btn-bounce" style={{ animationDelay: "0.5s" }}><span className="chip"><Icon name="heartFill" /></span>Ver los corazones</a>
           </Reveal>
           <Reveal delay={0.3} className="mt-10 flex flex-wrap gap-3">
-            {[["14", "corazones"], ["8:00", "cada mañana"], ["1", "plan para el 14"]].map(([n, t]) => (
-              <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 lift sm:gap-2 sm:px-4 sm:py-2">
+            {[["14", "corazones"], ["8:00", "cada mañana"], ["1", "plan para el 14"]].map(([n, t], i) => (
+              <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 lift anim-bob sm:gap-2 sm:px-4 sm:py-2" style={{ "--dur": "4s", "--delay": `${i * 0.4}s` } as React.CSSProperties}>
                 <b className="font-display text-xl text-rose sm:text-2xl">{n}</b>
                 <span className="text-sm font-semibold text-muted sm:text-base">{t}</span>
               </span>
@@ -66,7 +66,7 @@ export function Intro() {
         </div>
 
         <Reveal variant="right" delay={0.1}>
-          <div ref={scene} onPointerMove={onMove} onPointerLeave={onLeave} className="book-scene h-[clamp(420px,46vw,560px)]">
+          <div ref={scene} onPointerMove={onMove} onPointerLeave={onLeave} className="book-scene h-[clamp(460px,52vw,640px)]">
             <div aria-hidden className="absolute bottom-[8%] h-10 w-[60%] rounded-[50%] bg-rose/25 blur-2xl" />
             <div ref={book} className="book" role="img" aria-label={`Libro del calendario «${site.name}», San Valentín 2027`}>
               <div className="book-back" />

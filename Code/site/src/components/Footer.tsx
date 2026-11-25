@@ -18,7 +18,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5">
         <div className="flex flex-col items-center text-center">
           <Logo size="lg" />
-          <p className="mt-6 font-script text-[clamp(2.2rem,5vw,3.4rem)] leading-tight text-rose">{site.subtitle}</p>
+          <p className="mt-6 font-script text-[clamp(2.2rem,5vw,3.4rem)] leading-tight text-water">{site.subtitle}</p>
           <p className="mt-2 font-display text-2xl font-bold text-rose-ink">{site.hashtag}</p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
             <a href={channel.url} target="_blank" rel="noopener noreferrer" className="btn3d sm">

@@ -19,7 +19,7 @@ function RecipeTile({ r, i }: { r: Recipe; i: number }) {
   const count = r.groups.reduce((n, g) => n + g.items.length, 0);
   return (
     <Reveal as="li" variant="flip" delay={0.08 * (i % 2)} className="h-full">
-      <article className="flex h-full flex-col overflow-hidden rounded-[32px] bg-surface lift">
+      <article className="flex h-full flex-col overflow-hidden rounded-[32px] bg-surface lift recipe-3d">
         <YouTube key={r.videos[v].id} id={r.videos[v].id} title={r.videos[v].title} className="aspect-video" />
         {r.videos.length > 1 && (
           <div role="tablist" aria-label={`Videos de ${r.title}`} className="flex gap-2 px-6 pt-4">
@@ -84,7 +84,7 @@ export function Recipes() {
           <div className="max-w-3xl">
             <Reveal><Eyebrow icon="whisk">Recetas de Pedro</Eyebrow></Reveal>
             <Reveal as="h2" delay={0.08} className="mt-4 font-display text-[clamp(2.4rem,5.2vw,4.4rem)] font-bold leading-[1.03]">
-              Un adelanto de lo que <span className="font-script font-normal text-rose">vas a hornear</span>
+              Un adelanto de lo que <span className="font-script font-normal text-water">vas a hornear</span>
             </Reveal>
             <Reveal as="p" delay={0.16} className="mt-5 text-lg text-muted">
               Algunas de las recetas del calendario, con el paso a paso de Pedro en su canal de YouTube. En tu calendario encontrarás cada receta lista para descargar.

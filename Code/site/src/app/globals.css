@@ -423,19 +423,19 @@ dialog::backdrop { background: rgb(18 2 9 / 0.82); backdrop-filter: blur(8px); }
 .hero-shade { position: absolute; inset: 0; pointer-events: none; transition: background-color 0.6s; }
 .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .hero-art {
-  --ar: 16 / 9; --x: 65.5%; --w: 31%; --k: 22.6%; --t: 26.4%; --gap: 3.6cqw;
-  --fk: 1.32cqw; --ft: 5.9cqw; --fy: 1.9cqw; --fs: 1.55cqw; --fb: 1.2cqw;
+  --ar: 16 / 9; --x: 65.5%; --w: 34%; --k: 21.6%; --t: 25.4%; --gap: 3.6cqw;
+  --fk: 1.5cqw; --ft: 6.6cqw; --fy: 2.1cqw; --fs: 1.7cqw; --fb: 1.3cqw;
   position: absolute; left: 50%; top: 50%; translate: -50% -50%;
   width: max(100%, calc(100svh * 16 / 9)); aspect-ratio: var(--ar);
   container-type: inline-size; pointer-events: none;
 }
 @media (max-aspect-ratio: 13 / 10) {
-  .hero-art { --ar: 1 / 1; --x: 50%; --w: 54%; --k: 19.6%; --t: 22.6%; --gap: 2.4cqw;
-    --fk: 1.9cqw; --ft: 7.6cqw; --fy: 2.6cqw; --fs: 2.15cqw; --fb: 1.55cqw; width: max(100%, 100svh); }
+  .hero-art { --ar: 1 / 1; --x: 50%; --w: 58%; --k: 18.6%; --t: 21.6%; --gap: 2.4cqw;
+    --fk: 2.1cqw; --ft: 8.4cqw; --fy: 2.8cqw; --fs: 2.3cqw; --fb: 1.7cqw; width: max(100%, 100svh); }
 }
 @media (max-aspect-ratio: 4 / 5) {
-  .hero-art { --ar: 9 / 16; --x: 50%; --w: 72%; --k: 16.1%; --t: 22.4%; --gap: 2.4cqw;
-    --fk: 3.3cqw; --ft: 10.6cqw; --fy: 4.2cqw; --fs: 3.45cqw; --fb: 3.4cqw; width: max(100%, calc(100svh * 9 / 16)); }
+  .hero-art { --ar: 9 / 16; --x: 50%; --w: 78%; --k: 15.1%; --t: 21.4%; --gap: 2.4cqw;
+    --fk: 3.6cqw; --ft: 11.6cqw; --fy: 4.5cqw; --fs: 3.7cqw; --fb: 3.6cqw; width: max(100%, calc(100svh * 9 / 16)); }
 }
 .hero-kicker, .hero-block { position: absolute; left: var(--x); translate: -50% 0; pointer-events: auto; text-align: center; animation: hero-text-float 6s ease-in-out 1.5s infinite; }
 @keyframes hero-text-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
@@ -565,9 +565,11 @@ dialog::backdrop { background: rgb(18 2 9 / 0.82); backdrop-filter: blur(8px); }
 .book-scene { position: relative; display: grid; place-items: center; perspective: 1400px; }
 .book {
   --t: 34px; /* thickness */
-  position: relative; width: min(300px, 52vw); aspect-ratio: 3 / 4; transform-style: preserve-3d;
+  position: relative; width: min(380px, 60vw); aspect-ratio: 3 / 4; transform-style: preserve-3d;
   transform: rotateX(var(--rx, 6deg)) rotateY(calc(var(--ry, 0deg) - 26deg)); transition: transform 0.6s var(--ease-soft);
+  animation: book-float 6s ease-in-out infinite;
 }
+@keyframes book-float { 0%, 100% { transform: rotateX(var(--rx, 6deg)) rotateY(calc(var(--ry, 0deg) - 26deg)) translateY(0); } 50% { transform: rotateX(var(--rx, 6deg)) rotateY(calc(var(--ry, 0deg) - 26deg)) translateY(-12px); } }
 .book > * { position: absolute; }
 .book-cover, .book-back { inset: 0; border-radius: 6px 20px 20px 6px; }
 .book-cover { transform: translateZ(calc(var(--t) / 2)); background: var(--c-rose); color: #fff; overflow: hidden; box-shadow: inset 10px 0 18px -10px rgb(0 0 0 / 0.35), inset 0 0 0 2px rgb(255 255 255 / 0.18); }
@@ -581,7 +583,7 @@ dialog::backdrop { background: rgb(18 2 9 / 0.82); backdrop-filter: blur(8px); }
 .book-ribbon { left: 62%; bottom: -34px; width: 22px; height: 64px; transform: translateZ(calc(var(--t) / 2 - 1px)); background: var(--c-gold); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%); animation: ribbon-sway 3s ease-in-out infinite; }
 @keyframes ribbon-sway { 0%, 100% { transform: translateZ(calc(var(--t) / 2 - 1px)) rotate(0deg); } 50% { transform: translateZ(calc(var(--t) / 2 - 1px)) rotate(2deg); } }
 .orbit { position: absolute; inset: 0; transform-style: preserve-3d; animation: orbit 16s linear infinite; pointer-events: none; }
-.orbit-item { position: absolute; left: 50%; top: var(--y); transform-style: preserve-3d; transform: rotateY(var(--a)) translateZ(min(280px, 44vw)); }
+.orbit-item { position: absolute; left: 50%; top: var(--y); transform-style: preserve-3d; transform: rotateY(var(--a)) translateZ(min(320px, 48vw)); }
 .orbit-face { transform-style: preserve-3d; transform: rotateY(calc(var(--a) * -1)); }
 .orbit-face > * { display: block; translate: -50% -50%; animation: orbit 16s linear infinite reverse; }
 @keyframes orbit { to { transform: rotateY(360deg); } }
@@ -636,6 +638,102 @@ dialog::backdrop { background: rgb(18 2 9 / 0.82); backdrop-filter: blur(8px); }
   html { cursor: var(--cur-arrow); }
   a[href], button:not(:disabled), [role="button"], [role="switch"], summary, label[for], select, [aria-roledescription="carrusel"] { cursor: var(--cur-press); }
   input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), textarea { cursor: text; }
+}
+
+/* ───────── Watering / wave text animation ───────── */
+@keyframes water-wave {
+  0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 50%; filter: hue-rotate(5deg); }
+  100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+}
+.text-water {
+  background: linear-gradient(90deg, var(--c-rose) 0%, #ff6b9d 20%, var(--c-rose-hi) 40%, #ff4081 60%, var(--c-rose) 80%, #ff6b9d 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: water-wave 4s ease-in-out infinite;
+}
+
+/* ───────── Button bounce for CTA ───────── */
+@keyframes btn-bounce {
+  0%, 100% { transform: translateY(0); }
+  15% { transform: translateY(-6px); }
+  30% { transform: translateY(0); }
+  45% { transform: translateY(-3px); }
+  60% { transform: translateY(0); }
+}
+.anim-btn-bounce { animation: btn-bounce 3s ease-in-out infinite; }
+
+/* ───────── Step icon spin-in ───────── */
+@keyframes step-pop {
+  0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes step-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(1deg); }
+  75% { transform: translateY(4px) rotate(-1deg); }
+}
+
+/* ───────── Day dot stagger animation ───────── */
+@keyframes dot-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(233 30 99 / 0.4); }
+  50% { box-shadow: 0 0 0 8px rgb(233 30 99 / 0); }
+}
+
+/* ───────── Timeline card slide-in ───────── */
+@keyframes timeline-slide-left {
+  from { opacity: 0; transform: translateX(-40px) rotateY(8deg); }
+  to { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+@keyframes timeline-slide-right {
+  from { opacity: 0; transform: translateX(40px) rotateY(-8deg); }
+  to { opacity: 1; transform: translateX(0) rotateY(0); }
+}
+@keyframes heart-beat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  56% { transform: scale(1); }
+}
+
+/* ───────── Recipe card 3D tilt ───────── */
+.recipe-3d {
+  transition: transform 0.5s var(--ease-soft), box-shadow 0.5s var(--ease-soft);
+  transform-style: preserve-3d;
+}
+.recipe-3d:hover {
+  transform: perspective(800px) rotateX(-3deg) rotateY(5deg) translateY(-8px) scale(1.02);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.7) inset,
+    0 30px 60px -20px rgb(var(--shadow-rgb) / 0.35),
+    0 60px 100px -50px rgb(var(--shadow-rgb) / 0.35);
+}
+
+/* ───────── Heading shimmer ───────── */
+@keyframes heading-shimmer {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+.heading-shine {
+  position: relative;
+}
+.heading-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.3) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: heading-shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  border-radius: inherit;
 }
 
 /* ───────── Printable recipe sheets (receta/[slug]) ───────── */

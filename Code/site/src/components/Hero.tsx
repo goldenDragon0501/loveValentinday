@@ -33,7 +33,7 @@ export function Hero() {
       <HeroSparkles className="hero-canvas" />
 
       <div className="hero-art">
-        <p aria-hidden className="hero-kicker" style={{ animation: "pop-in 1s .15s var(--ease-soft) backwards" }}>
+        <p aria-hidden className="hero-kicker heading-shine" style={{ animation: "pop-in 1s .15s var(--ease-soft) backwards" }}>
           Calendario de<span className="hero-kyr"> · 2027</span>
         </p>
         <div className="hero-block">
@@ -48,8 +48,8 @@ export function Hero() {
             href="#calendario"
             onClick={start}
             aria-label="Abrir mi calendario"
-            className="btn3d gold hero-cta"
-            style={{ animation: "pop-in 1s .9s var(--ease-soft) backwards" }}
+            className="btn3d gold hero-cta anim-btn-bounce"
+            style={{ animation: "pop-in 1s .9s var(--ease-soft) backwards, btn-bounce 3s ease-in-out 2s infinite" }}
           >
             <span className="chip"><Icon name="heartFill" className="text-rose" /></span>
             <span>

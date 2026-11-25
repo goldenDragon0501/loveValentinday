@@ -91,7 +91,7 @@ export function Inside() {
         <div className="max-w-3xl">
           <Reveal><Eyebrow icon="rolling-pin">¿Qué encontrarás dentro?</Eyebrow></Reveal>
           <Reveal as="h2" delay={0.08} className="mt-4 font-display text-[clamp(2.4rem,5.2vw,4.4rem)] font-bold leading-[1.03]">
-            Dulces recetas <span className="font-script font-normal text-rose">en cada corazón</span>
+            Dulces recetas <span className="font-script font-normal text-water">en cada corazón</span>
           </Reveal>
           <Reveal as="p" delay={0.16} className="mt-5 text-lg text-muted">Pasa el cursor sobre las fichas: se acercan, se inclinan y empujan a las demás.</Reveal>
         </div>
@@ -105,7 +105,7 @@ export function Inside() {
         </svg>
         <div className="tex-satin mx-auto flex max-w-7xl flex-col items-center gap-8 px-5 text-center lg:flex-row lg:text-left">
           <div className="lg:w-[38%]">
-            <Reveal as="h2" className="font-display text-[clamp(2.2rem,4.4vw,3.6rem)] font-bold leading-tight [text-shadow:0_3px_0_var(--c-rose-ink)]">Mucho más que videos</Reveal>
+            <Reveal as="h2" className="font-display text-[clamp(2.2rem,4.4vw,3.6rem)] font-bold leading-tight [text-shadow:0_3px_0_var(--c-rose-ink)] heading-shine">Mucho más que videos</Reveal>
             <Reveal as="p" delay={0.08} className="mt-2 text-lg text-white/95">Todo lo de cada día, listo para guardar y consultar cuando quieras.</Reveal>
           </div>
           <ul className="flex flex-1 flex-wrap justify-center gap-4 lg:justify-end">

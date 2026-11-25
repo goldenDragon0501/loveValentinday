@@ -222,7 +222,7 @@ export function Stories() {
         <div className="text-center">
           <Reveal><Eyebrow icon="calendar" className="justify-center">Del 1 al 14 de febrero</Eyebrow></Reveal>
           <Reveal delay={0.08} as="h2" className="mx-auto mt-4 max-w-4xl font-display text-[clamp(2.6rem,6vw,5rem)] font-bold leading-[1.02]">
-            14 historias, <span className="font-script font-normal text-rose">un corazón al día</span>
+            14 historias, <span className="font-script font-normal text-water">un corazón al día</span>
           </Reveal>
           <Reveal delay={0.16} as="p" className="mx-auto mt-5 max-w-2xl text-[clamp(1.1rem,1.6vw,1.3rem)] text-muted">
             Cada corazón guarda una receta de Pedro. Se abre a las {site.openTime} de su fecha y se queda abierto para ti.
@@ -258,7 +258,7 @@ export function Stories() {
             <HeartRing state={state} opening={opening} shake={shake} onOpen={open} />
           </div>
           <div className="mt-5 flex items-center gap-2 lg:hidden">
-            <button type="button" onClick={() => scroll(-1)} aria-label="Ver días anteriores" className="btn3d sm icon-only cream mb-8 hidden shrink-0 sm:inline-flex">
+            <button type="button" onClick={() => scroll(-1)} aria-label="Ver días anteriores" className="btn3d sm icon-only cream mb-8 hidden shrink-0 sm:inline-flex anim-bob" style={{ "--dur": "3s" } as React.CSSProperties}>
               <Icon name="left" className="size-5" />
             </button>
             <div ref={strip} className="no-scrollbar flex min-w-0 flex-1 snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-3 pt-2 sm:gap-5">
@@ -273,10 +273,10 @@ export function Stories() {
                     className={`group flex shrink-0 snap-start flex-col items-center gap-2 rounded-3xl p-1.5 ${st === "locked" ? "cursor-not-allowed" : ""}`}
                     style={{ animation: shake === n ? "shake .5s" : undefined }}
                   >
-                    <span className={`relative drop transition-transform duration-300 ${st !== "locked" ? "group-hover:-translate-y-1 group-hover:scale-105" : ""}`}>
+                    <span className={`relative drop transition-transform duration-300 ${st !== "locked" ? "group-hover:-translate-y-1 group-hover:scale-105" : ""}`} style={{ animation: `dot-pop 0.5s var(--ease-spring) ${n * 0.08}s backwards, ${st !== "locked" ? "heart-beat 2s ease-in-out 1.5s infinite" : "none"}` }}>
                       <HeartStory n={n} state={st} opening={opening === n} size={104} />
                       {st === "preview" && (
-                        <span className="absolute -right-1 top-0 rounded-full bg-goldfoil px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-wine shadow-[0_2px_0_#d98400]">Ver</span>
+                        <span className="absolute -right-1 top-0 rounded-full bg-goldfoil px-2.5 py-0.5 text-xs font-extrabold uppercase tracking-wider text-wine shadow-[0_2px_0_#d98400] anim-bob" style={{ "--dur": "2s" } as React.CSSProperties}>Ver</span>
                       )}
                     </span>
                     <span className={`text-sm font-extrabold uppercase tracking-[0.14em] ${st === "locked" ? "text-muted" : "text-rose-ink"}`}>{short(n)}</span>
@@ -284,7 +284,7 @@ export function Stories() {
                 );
               })}
             </div>
-            <button type="button" onClick={() => scroll(1)} aria-label="Ver días siguientes" className="btn3d sm icon-only cream mb-8 hidden shrink-0 sm:inline-flex">
+            <button type="button" onClick={() => scroll(1)} aria-label="Ver días siguientes" className="btn3d sm icon-only cream mb-8 hidden shrink-0 sm:inline-flex anim-bob" style={{ "--dur": "3s", "--delay": "0.5s" } as React.CSSProperties}>
               <Icon name="right" className="size-5" />
             </button>
           </div>
@@ -292,16 +292,18 @@ export function Stories() {
 
         {/* Highlights: how it works */}
         <div className="mt-14">
-          <Reveal as="h3" className="text-center font-display text-3xl font-bold">Así funciona</Reveal>
+          <Reveal as="h3" className="text-center font-display text-3xl font-bold heading-shine sm:text-4xl">Así funciona</Reveal>
           <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
             {highlights.map((h, i) => (
               <Reveal as="li" key={h.title} variant="zoom" delay={0.08 * i} className="flex flex-col items-center text-center">
-                <span className="story size-28">
+                <span className="story size-28 sm:size-32" style={{ animation: `step-float 5s ease-in-out ${i * 0.5}s infinite` }}>
                   <span className="grid size-full place-items-center bg-surface text-rose">
-                    <Icon3D name={h.icon} className="size-[72px]" />
+                    <span style={{ animation: `step-pop 0.8s var(--ease-spring) ${0.3 + i * 0.15}s backwards`, display: "grid", placeItems: "center" }}>
+                      <Icon3D name={h.icon} className="size-[72px] sm:size-[80px]" />
+                    </span>
                   </span>
                 </span>
-                <span className="-mt-4 rounded-full bg-goldfoil px-3 py-0.5 font-display text-lg font-extrabold text-wine shadow-[0_3px_0_#d98400]">{i + 1}</span>
+                <span className="-mt-4 rounded-full bg-goldfoil px-3 py-0.5 font-display text-lg font-extrabold text-wine shadow-[0_3px_0_#d98400] anim-bob" style={{ "--dur": "3s", "--delay": `${i * 0.3}s` } as React.CSSProperties}>{i + 1}</span>
                 <p className="mt-3 font-display text-xl font-bold sm:text-2xl">{h.title}</p>
                 <p className="mt-1 max-w-[15rem] text-sm text-muted sm:text-base">{h.text}</p>
               </Reveal>

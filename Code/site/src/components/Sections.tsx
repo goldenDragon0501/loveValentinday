@@ -157,7 +157,7 @@ export function Feed() {
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">
             <Reveal><Eyebrow icon="heart">Qué incluye</Eyebrow></Reveal>
-            <H2>Lo que guarda <span className="font-script font-normal text-rose">cada corazón</span></H2>
+            <H2>Lo que guarda <span className="font-script font-normal text-water">cada corazón</span></H2>
           </div>
           <Reveal delay={0.16} as="p" className="max-w-sm text-lg text-muted">Dale ❤ a lo que más te guste, compártelo o guarda las fechas en tu calendario.</Reveal>
         </div>
@@ -186,7 +186,7 @@ export function Gift() {
       <div className="mx-auto max-w-7xl px-5">
         <div className="max-w-3xl">
           <Reveal><Eyebrow icon="gift">Regala amor</Eyebrow></Reveal>
-          <H2>Envía una <span className="font-script font-normal text-rose">postal de amor</span></H2>
+          <H2>Envía una <span className="font-script font-normal text-water">postal de amor</span></H2>
           <Reveal delay={0.16} as="p" className="mt-5 text-lg text-muted">
             Escribe su nombre, elige un mensaje y compártela por WhatsApp o en tus historias. Tiene el tamaño perfecto para el teléfono.
           </Reveal>
@@ -254,7 +254,7 @@ export function About() {
 
         <div>
           <Reveal><Eyebrow icon="heart-cake">¿Por qué es tan especial?</Eyebrow></Reveal>
-          <H2>Hecho con el corazón <span className="font-script font-normal text-rose">de Puerto Rico</span></H2>
+          <H2>Hecho con el corazón <span className="font-script font-normal text-water">de Puerto Rico</span></H2>
           <Reveal as="p" delay={0.16} className="mt-6 max-w-2xl text-[clamp(1.1rem,1.6vw,1.3rem)] leading-relaxed text-muted">{profile.bio}</Reveal>
           <Reveal delay={0.24} className="mt-8 flex flex-wrap gap-3">
             {profile.values.map((v) => (
@@ -283,7 +283,7 @@ function Testimonials() {
       <div className="text-center">
         <Reveal><Eyebrow icon="comment" className="justify-center">Opiniones</Eyebrow></Reveal>
         <Reveal as="h3" delay={0.08} className="mt-4 font-display text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">
-          Lo que dicen nuestras <span className="font-script font-normal text-rose">alumnas</span>
+          Lo que dicen nuestras <span className="font-script font-normal text-water">alumnas</span>
         </Reveal>
       </div>
       {testimonials.length ? (
@@ -333,7 +333,7 @@ export function Community() {
       <div className="mx-auto max-w-7xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="camera" className="justify-center">Comunidad</Eyebrow></Reveal>
-          <H2>Horneamos <span className="font-script font-normal text-rose">juntos</span></H2>
+          <H2>Horneamos <span className="font-script font-normal text-water">juntos</span></H2>
         </div>
         <div className="mt-16 grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           {/* Hashtag sticker */}
@@ -435,7 +435,7 @@ export function Offer() {
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
           <Reveal><Eyebrow icon="ticket" className="justify-center">Edición San Valentín 2027</Eyebrow></Reveal>
-          <H2>Regálate <span className="font-script font-normal text-rose">14 días</span> de dulce amor</H2>
+          <H2>Regálate <span className="font-script font-normal text-water">14 días</span> de dulce amor</H2>
         </div>
         <div className="mt-16 grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <Reveal variant="left">
@@ -459,11 +459,11 @@ export function Offer() {
                     <Countdown />
                     <div className="mt-8 flex flex-wrap gap-4">
                       {site.checkoutUrl ? (
-                        <a href={site.checkoutUrl} className="btn3d gold lg"><span className="chip"><Icon name="heartFill" className="text-rose" /></span>Quiero mi calendario</a>
+                        <a href={site.checkoutUrl} className="btn3d gold lg anim-btn-bounce"><span className="chip"><Icon name="heartFill" className="text-rose" /></span>Quiero mi calendario</a>
                       ) : (
                         <span className="btn3d gold lg" aria-disabled="true"><span className="chip"><Icon name="calendar" /></span>Próximamente</span>
                       )}
-                      <a href="#regala" className="btn3d cream lg"><span className="chip"><Icon name="gift" /></span>Regálalo</a>
+                      <a href="#regala" className="btn3d cream lg anim-btn-bounce" style={{ animationDelay: "0.5s" }}><span className="chip"><Icon name="gift" /></span>Regálalo</a>
                     </div>
                   </div>
                 </div>
@@ -539,7 +539,7 @@ export function Faq() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         <div>
           <Reveal><Eyebrow icon="chat">Preguntas</Eyebrow></Reveal>
-          <H2>¿Tienes <span className="font-script font-normal text-rose">dudas?</span></H2>
+          <H2>¿Tienes <span className="font-script font-normal text-water">dudas?</span></H2>
           <Reveal delay={0.16} as="p" className="mt-5 max-w-sm text-lg text-muted">Toca una pregunta y te respondemos al momento, como en un chat.</Reveal>
         </div>
         {/* Phone with a chat */}
@@ -600,7 +600,7 @@ export function Closing() {
       <div className="relative mx-auto max-w-3xl px-5">
         <Reveal as="h2" className="font-script text-[clamp(3.4rem,9vw,7rem)] leading-[1.05] text-rose [text-shadow:0_4px_0_rgb(255_194_26/.55)]">{closing.title}</Reveal>
         <Reveal delay={0.12} className="mt-8 flex justify-center">
-          <a href="#precio" className="btn3d gold lg"><span className="chip"><Icon name="heartFill" className="text-rose" /></span>Quiero mi calendario</a>
+          <a href="#precio" className="btn3d gold lg anim-btn-bounce"><span className="chip"><Icon name="heartFill" className="text-rose" /></span>Quiero mi calendario</a>
         </Reveal>
         <Reveal as="p" delay={0.2} className="mt-6 font-display text-xl italic text-muted">{closing.line}</Reveal>
       </div>
