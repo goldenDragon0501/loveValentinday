@@ -57,9 +57,9 @@ export function Intro() {
           </Reveal>
           <Reveal delay={0.3} className="mt-10 flex flex-wrap gap-3">
             {[["14", "corazones"], ["8:00", "cada mañana"], ["1", "plan para el 14"]].map(([n, t]) => (
-              <span key={t} className="inline-flex items-center gap-2 rounded-full bg-surface px-4 py-2 lift">
-                <b className="font-display text-2xl text-rose">{n}</b>
-                <span className="text-base font-semibold text-muted">{t}</span>
+              <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 lift sm:gap-2 sm:px-4 sm:py-2">
+                <b className="font-display text-xl text-rose sm:text-2xl">{n}</b>
+                <span className="text-sm font-semibold text-muted sm:text-base">{t}</span>
               </span>
             ))}
           </Reveal>

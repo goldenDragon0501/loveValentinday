@@ -33,7 +33,7 @@ export function Footer() {
           <ul className="flex flex-wrap justify-center gap-x-2 gap-y-3">
             {nav.map((n) => (
               <li key={n.href}>
-                <a href={n.href} className="rounded-full px-5 py-2.5 text-lg font-semibold transition hover:bg-surface hover:text-rose-ink">{n.label}</a>
+                <a href={n.href} className="rounded-full px-3.5 py-2 text-base font-semibold transition hover:bg-surface hover:text-rose-ink sm:px-5 sm:py-2.5 sm:text-lg">{n.label}</a>
               </li>
             ))}
           </ul>

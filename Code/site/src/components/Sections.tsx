@@ -228,12 +228,12 @@ export function About() {
                 </span>
                 <h3 className="mt-3 font-display text-3xl font-bold">{profile.name}</h3>
                 <p className="font-semibold text-rose-ink">{profile.line}</p>
-                <dl className="mt-5 grid grid-cols-3 rounded-[20px] border-2 border-dashed border-gold/70 p-3">
+                <dl className="mt-5 grid grid-cols-3 gap-1 rounded-[20px] border-2 border-dashed border-gold/70 p-2 sm:p-3">
                   {[["14", "corazones"], ["1–14", "febrero"], ["8:00", "cada mañana"]].map(([n, l]) => (
                     <div key={l}>
                       <dt className="sr-only">{l}</dt>
-                      <dd className="font-display text-3xl font-extrabold text-rose">{n}</dd>
-                      <dd className="text-sm font-semibold text-muted">{l}</dd>
+                      <dd className="font-display text-2xl font-extrabold text-rose sm:text-3xl">{n}</dd>
+                      <dd className="text-xs font-semibold text-muted sm:text-sm">{l}</dd>
                     </div>
                   ))}
                 </dl>
@@ -364,7 +364,7 @@ export function Community() {
           </Reveal>
 
           {/* Polaroids */}
-          <ul className="grid grid-cols-2 gap-6">
+          <ul className="grid grid-cols-1 gap-6 min-[480px]:grid-cols-2">
             {frames.map((f, i) => (
               <Reveal as="li" key={f.id} variant="zoom" delay={0.08 * i} className="relative">
                 <Tape className="-top-3 left-1/2 -translate-x-1/2" />
@@ -441,9 +441,9 @@ export function Offer() {
           <Reveal variant="left">
             <Tilt max={6}>
               <div className="drop">
-                <div className="tex-satin relative bg-rose py-10 pl-[84px] pr-5 text-white [clip-path:polygon(0_50%,64px_0,100%_0,100%_100%,64px_100%)] sm:pl-28 sm:pr-10">
-                  <span aria-hidden className="absolute left-9 top-1/2 size-8 -translate-y-1/2 rounded-full border-[5px] border-gold bg-bg" />
-                  <span aria-hidden className="absolute inset-3 left-[72px] rounded-[22px] border-2 border-dashed border-white/60" />
+                <div className="tex-satin relative bg-rose py-8 pl-5 pr-5 text-white sm:py-10 sm:pl-[84px] sm:pr-10 sm:[clip-path:polygon(0_50%,64px_0,100%_0,100%_100%,64px_100%)]">
+                  <span aria-hidden className="absolute left-9 top-1/2 hidden size-8 -translate-y-1/2 rounded-full border-[5px] border-gold bg-bg sm:block" />
+                  <span aria-hidden className="absolute inset-3 left-3 rounded-[22px] border-2 border-dashed border-white/60 sm:left-[72px]" />
                   <div className="relative [transform:translateZ(36px)]">
                     <p className="inline-block rounded-full bg-goldfoil px-3 py-1 text-xs font-extrabold uppercase tracking-[0.22em] text-wine shadow-[0_2px_0_#d98400]">Precio de lanzamiento</p>
                     {price ? (
@@ -471,14 +471,14 @@ export function Offer() {
             </Tilt>
           </Reveal>
           <Reveal variant="right">
-            <div className="notebook px-6 pb-6 lift sm:px-8" style={{ rotate: "1.5deg" }}>
+            <div className="notebook px-4 pb-5 lift sm:px-8 sm:pb-6" style={{ rotate: "1.5deg" }}>
               <span aria-hidden className="notebook-margin" />
-              <p className="relative pl-12 font-script text-4xl leading-[60px] text-rose">Todo lo que incluye</p>
+              <p className="relative pl-10 font-script text-3xl leading-[50px] text-rose sm:pl-12 sm:text-4xl sm:leading-[60px]">Todo lo que incluye</p>
               <ul className="relative">
                 {included.map((t) => (
-                  <li key={t} className="flex min-h-[60px] items-center gap-4">
-                    <Icon name="check" className="size-9 shrink-0" />
-                    <span className="pl-3 text-xl font-semibold leading-snug">{t}</span>
+                  <li key={t} className="flex min-h-[48px] items-center gap-3 sm:min-h-[60px] sm:gap-4">
+                    <Icon name="check" className="size-7 shrink-0 sm:size-9" />
+                    <span className="pl-2 text-base font-semibold leading-snug sm:pl-3 sm:text-xl">{t}</span>
                   </li>
                 ))}
               </ul>
@@ -552,7 +552,7 @@ export function Faq() {
                 <p className="flex items-center gap-1.5 text-sm text-muted"><span className="size-2 rounded-full bg-[#2ecc71]" />Respuestas al instante</p>
               </div>
             </div>
-            <div ref={box} className="tex-paper h-[360px] space-y-3 overflow-y-auto bg-surface-2/60 p-5" aria-live="polite">
+            <div ref={box} className="tex-paper h-[280px] space-y-3 overflow-y-auto bg-surface-2/60 p-4 sm:h-[360px] sm:p-5" aria-live="polite">
               <p className="bubble-in lift">¡Hola! 💗 ¿Qué te gustaría saber sobre el calendario?</p>
               {thread.map((t, i) => (
                 <div key={i} className="space-y-3">
@@ -573,7 +573,7 @@ export function Faq() {
                   type="button"
                   disabled={asked.has(f.q)}
                   onClick={() => ask(f.q, f.a)}
-                  className="rounded-full text-left leading-snug border-2 border-rose/30 bg-surface px-4 py-2 text-base font-bold text-rose-ink transition hover:border-rose hover:bg-rose hover:text-white disabled:opacity-40 disabled:hover:bg-surface disabled:hover:text-rose-ink"
+                  className="rounded-full text-left leading-snug border-2 border-rose/30 bg-surface px-3 py-1.5 text-sm font-bold text-rose-ink transition hover:border-rose hover:bg-rose hover:text-white disabled:opacity-40 disabled:hover:bg-surface disabled:hover:text-rose-ink sm:px-4 sm:py-2 sm:text-base"
                 >
                   {f.q}
                 </button>

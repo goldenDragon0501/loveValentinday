@@ -261,7 +261,7 @@ export function Stories() {
             <button type="button" onClick={() => scroll(-1)} aria-label="Ver días anteriores" className="btn3d sm icon-only cream mb-8 hidden shrink-0 sm:inline-flex">
               <Icon name="left" className="size-5" />
             </button>
-            <div ref={strip} className="no-scrollbar flex min-w-0 flex-1 snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-3 pt-2 sm:gap-5">
+            <div ref={strip} className="no-scrollbar flex min-w-0 flex-1 snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-3 pt-2 sm:gap-5">
               {Array.from({ length: N }, (_, i) => i + 1).map((n) => {
                 const st = state(n);
                 return (
@@ -302,8 +302,8 @@ export function Stories() {
                   </span>
                 </span>
                 <span className="-mt-4 rounded-full bg-goldfoil px-3 py-0.5 font-display text-lg font-extrabold text-wine shadow-[0_3px_0_#d98400]">{i + 1}</span>
-                <p className="mt-3 font-display text-2xl font-bold">{h.title}</p>
-                <p className="mt-1 max-w-[15rem] text-base text-muted">{h.text}</p>
+                <p className="mt-3 font-display text-xl font-bold sm:text-2xl">{h.title}</p>
+                <p className="mt-1 max-w-[15rem] text-sm text-muted sm:text-base">{h.text}</p>
               </Reveal>
             ))}
           </ul>

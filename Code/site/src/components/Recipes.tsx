@@ -38,7 +38,7 @@ function RecipeTile({ r, i }: { r: Recipe; i: number }) {
           </div>
         )}
         <div className="flex flex-1 flex-col p-6 sm:p-7">
-          <h3 className="font-display text-[1.7rem] font-bold leading-tight">{r.title}</h3>
+          <h3 className="font-display text-[1.4rem] font-bold leading-tight sm:text-[1.7rem]">{r.title}</h3>
           <p className="mt-3 flex flex-wrap gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1 text-sm font-bold text-rose-ink"><Icon name="recipe" className="size-4" />Receta para descargar</span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1 text-sm font-bold text-rose-ink"><Icon name="youtube" className="size-4" />{r.videos.length > 1 ? `${r.videos.length} videos` : "Video"} en YouTube</span>

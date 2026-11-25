@@ -53,23 +53,23 @@ function Deck() {
     <ul ref={deck} onPointerMove={onMove} onPointerLeave={onLeave} className="mt-16 grid gap-x-5 gap-y-14 [perspective:1400px] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {categories.map((c, i) => (
         <Reveal as="li" key={c.title} variant="flip" delay={0.08 * i} className="pt-6">
-          <article className="index-card h-full px-6 pb-8 lift" style={{ "--tab": tabs[i], "--i": i } as React.CSSProperties}>
+          <article className="index-card h-full px-4 pb-6 lift sm:px-6 sm:pb-8" style={{ "--tab": tabs[i], "--i": i } as React.CSSProperties}>
             <span className="index-tab">0{i + 1}</span>
             <span className="mt-2 grid size-20 place-items-center rounded-[24px] bg-surface text-rose lift">
               {has3D(c.icon) ? <Icon3D name={c.icon} className="size-16" /> : <AssetIcon name={c.icon as AssetIconName} className="size-12" />}
             </span>
-            <h3 className="mt-5 font-display text-2xl font-bold leading-tight">{c.title}</h3>
+            <h3 className="mt-5 font-display text-xl font-bold leading-tight sm:text-2xl">{c.title}</h3>
             {"list" in c ? (
               <ul className="mt-3 space-y-1.5">
                 {c.list.map((t) => (
-                  <li key={t} className="flex items-center gap-2.5 text-lg leading-[33px]">
+                  <li key={t} className="flex items-center gap-2.5 text-base leading-snug sm:text-lg sm:leading-[33px]">
                     <Icon name="heartFill" className="size-4 shrink-0 text-rose" />
                     {t}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="mt-3 text-lg leading-[35px] text-ink/85">{c.text}</p>
+              <p className="mt-3 text-base leading-relaxed text-ink/85 sm:text-lg sm:leading-[35px]">{c.text}</p>
             )}
           </article>
         </Reveal>

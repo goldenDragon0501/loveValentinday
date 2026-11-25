@@ -61,21 +61,21 @@ export function Route() {
                     className={`group block w-full rounded-[22px] text-left ${right ? "" : "md:text-right"}`}
                   >
                     {/* The ticket lifts inside the button, so the hit area stays put under the pointer. */}
-                    <span className={`ticket block px-7 py-5 transition duration-500 ease-[var(--ease-soft)] lift ${st === "locked" ? "" : "group-hover:-translate-y-1"}`}>
+                    <span className={`ticket block px-4 py-4 transition duration-500 ease-[var(--ease-soft)] lift sm:px-7 sm:py-5 ${st === "locked" ? "" : "group-hover:-translate-y-1"}`}>
                     <span className={`flex flex-wrap items-center gap-2 text-sm font-extrabold uppercase tracking-[0.16em] ${right ? "" : "md:justify-end"} ${st === "locked" ? "text-muted" : "text-rose-ink"}`}>
                       <span className="first-letter:uppercase">{label(n)}</span>
                     </span>
-                    <span className="mt-1 flex items-center gap-2 font-display text-2xl font-bold leading-snug text-ink md:inline-flex">
+                    <span className="mt-1 flex items-center gap-2 font-display text-xl font-bold leading-snug text-ink sm:text-2xl md:inline-flex">
                       {st === "locked" && <Icon3D name="lock" className="size-7 shrink-0" />}
                       {title}
                     </span>
                     <span className={`mt-3 flex flex-wrap items-center gap-2 ${right ? "" : "md:justify-end"}`}>
                       {plan ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1 text-sm font-bold text-rose-ink"><Icon name="heart" className="size-4" />Plan descargable</span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold text-rose-ink sm:px-3 sm:text-sm"><Icon name="heart" className="size-3.5 sm:size-4" />Plan descargable</span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-3 py-1 text-sm font-bold text-rose-ink"><Icon name="recipe" className="size-4" />Receta para descargar</span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold text-rose-ink sm:px-3 sm:text-sm"><Icon name="recipe" className="size-3.5 sm:size-4" />Receta para descargar</span>
                       )}
-                      <span className={`rounded-full px-3 py-1 text-sm font-extrabold ${st === "locked" ? "bg-surface-2 text-muted" : st === "preview" ? "bg-goldfoil text-wine" : "bg-rose text-white"}`}>
+                      <span className={`rounded-full px-2.5 py-1 text-xs font-extrabold sm:px-3 sm:text-sm ${st === "locked" ? "bg-surface-2 text-muted" : st === "preview" ? "bg-goldfoil text-wine" : "bg-rose text-white"}`}>
                         {st === "locked" ? "Se abre ese día" : st === "preview" ? "Vista previa" : "¡Ya disponible!"}
                       </span>
                     </span>
