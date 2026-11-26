@@ -56,14 +56,19 @@ After running migrations, the `app_settings` table is seeded with defaults. Use 
 
 ## 6. Create Admin User
 
-Insert an admin into the `admins` table:
+Admin authentication uses Supabase Auth. First create an auth user, then link it to the `admin_users` table.
+
+### Step 1: Create Auth User
+
+In the Supabase dashboard, go to **Authentication** > **Users** > **Add user** > **Create new user**. Enter your admin email and password. Copy the **User UID**.
+
+### Step 2: Insert Admin Record
 
 ```sql
-INSERT INTO admins (email, password_hash, name, role)
+INSERT INTO admin_users (auth_user_id, name, role)
 VALUES (
-  'admin@example.com',
-  crypt('your-secure-password', gen_salt('bf')),
+  'PASTE-YOUR-USER-UID-HERE',
   'Admin',
-  'super_admin'
+  'superadmin'
 );
 ```
