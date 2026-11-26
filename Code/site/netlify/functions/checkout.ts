@@ -1,5 +1,6 @@
 import type { Context } from "@netlify/functions";
-import { corsHeaders, errorResponse, jsonResponse, supabaseAdmin } from "./lib/supabase";
+import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
+import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { randomBytes } from "node:crypto";
 
 function generateReference(): string {
@@ -17,6 +18,17 @@ export default async function handler(req: Request, _context: Context) {
 
   if (req.method !== "POST") {
     return errorResponse("Method not allowed", 405, origin);
+  }
+
+  const dbCheck = requireSupabase(origin);
+  if (dbCheck) return dbCheck;
+
+  const rl = await checkRateLimit(req, "checkout");
+  if (!rl.allowed) {
+    return new Response(JSON.stringify({ error: "Demasiados intentos. Intente más tarde." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json", ...corsHeaders(origin), ...rateLimitHeaders(rl.retryAfter) },
+    });
   }
 
   let body: {
@@ -39,19 +51,31 @@ export default async function handler(req: Request, _context: Context) {
   }
   const validMethods = ["ath_movil", "paypal", "zelle"];
   if (!paymentMethod || !validMethods.includes(paymentMethod)) {
-    return errorResponse(`Payment method must be one of: ${validMethods.join(", ")}`, 400, origin);
+    return errorResponse(`El método de pago debe ser uno de: ${validMethods.join(", ")}`, 400, origin);
+  }
+
+  const { data: salesEnabled } = await supabaseAdmin.rpc("get_setting", { p_key: "sales_enabled" });
+  if (salesEnabled !== true) {
+    return errorResponse("Las ventas estarán disponibles próximamente.", 400, origin);
   }
 
   const { data: product } = await supabaseAdmin
     .from("products")
-    .select("id, price, currency")
+    .select("id, price, price_cents, currency, sales_enabled")
     .eq("active", true)
     .limit(1)
     .single();
 
-  if (!product || !product.price) {
-    return errorResponse("Product not available", 500, origin);
+  if (!product) {
+    return errorResponse("Producto no disponible.", 503, origin);
   }
+
+  const priceCents = product.price_cents ?? Math.round((product.price ?? 0) * 100);
+  if (priceCents <= 0 || !product.sales_enabled) {
+    return errorResponse("Las ventas estarán disponibles próximamente.", 400, origin);
+  }
+
+  const priceDecimal = (priceCents / 100).toFixed(2);
 
   const normalizedEmail = email.trim().toLowerCase();
 
@@ -76,6 +100,13 @@ export default async function handler(req: Request, _context: Context) {
     customer = created;
   }
 
+  const { data: methodEnabled } = await supabaseAdmin.rpc("get_setting", {
+    p_key: `${paymentMethod}_enabled`,
+  });
+  if (methodEnabled !== true) {
+    return errorResponse("Este método de pago no está disponible.", 400, origin);
+  }
+
   const reference = generateReference();
   const { data: order, error: orderErr } = await supabaseAdmin
     .from("orders")
@@ -83,7 +114,7 @@ export default async function handler(req: Request, _context: Context) {
       customer_id: customer.id,
       product_id: product.id,
       reference,
-      total: product.price,
+      total: priceDecimal,
       currency: product.currency,
       payment_method: paymentMethod,
       status: paymentMethod === "zelle" ? "awaiting_verification" : "pending",
@@ -111,7 +142,7 @@ export default async function handler(req: Request, _context: Context) {
       recipientName: process.env.ZELLE_RECIPIENT_NAME ?? "",
       recipientEmail: process.env.ZELLE_RECIPIENT_EMAIL ?? "",
       recipientPhone: process.env.ZELLE_RECIPIENT_PHONE ?? "",
-      instructions: `Envía $${product.price} por Zelle. Incluye tu referencia ${reference} en la nota del pago.`,
+      instructions: `Envía $${priceDecimal} por Zelle. Incluye tu referencia ${reference} en la nota del pago.`,
     };
   }
 

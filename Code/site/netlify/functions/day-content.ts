@@ -4,8 +4,10 @@ import {
   errorResponse,
   getUnlockTime,
   jsonResponse,
+  requireSupabase,
   supabaseAdmin,
 } from "./lib/supabase";
+import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 
 export default async function handler(req: Request, _context: Context) {
   const origin = req.headers.get("origin") ?? undefined;
@@ -16,6 +18,17 @@ export default async function handler(req: Request, _context: Context) {
 
   if (req.method !== "GET") {
     return errorResponse("Method not allowed", 405, origin);
+  }
+
+  const dbCheck = requireSupabase(origin);
+  if (dbCheck) return dbCheck;
+
+  const rl = await checkRateLimit(req, "day-content");
+  if (!rl.allowed) {
+    return new Response(JSON.stringify({ error: "Demasiados intentos. Intente más tarde." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json", ...corsHeaders(origin), ...rateLimitHeaders(rl.retryAfter) },
+    });
   }
 
   const url = new URL(req.url);

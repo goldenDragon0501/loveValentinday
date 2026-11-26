@@ -1,8 +1,8 @@
 import type { Context } from "@netlify/functions";
-import { corsHeaders, errorResponse, jsonResponse, supabaseAdmin } from "./lib/supabase";
+import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
+import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { capturePayPalOrder } from "./lib/paypal";
-import { sendEmail, purchaseConfirmationHtml, accessGrantedHtml } from "./lib/email";
-import { randomBytes } from "node:crypto";
+import { finalizePayment } from "./lib/finalize-payment";
 
 export default async function handler(req: Request, _context: Context) {
   const origin = req.headers.get("origin") ?? undefined;
@@ -13,6 +13,17 @@ export default async function handler(req: Request, _context: Context) {
 
   if (req.method !== "POST") {
     return errorResponse("Method not allowed", 405, origin);
+  }
+
+  const dbCheck = requireSupabase(origin);
+  if (dbCheck) return dbCheck;
+
+  const rl = await checkRateLimit(req, "paypal-capture");
+  if (!rl.allowed) {
+    return new Response(JSON.stringify({ error: "Demasiados intentos. Intente más tarde." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json", ...corsHeaders(origin), ...rateLimitHeaders(rl.retryAfter) },
+    });
   }
 
   let body: { paypalOrderId?: string };
@@ -33,116 +44,63 @@ export default async function handler(req: Request, _context: Context) {
     .single();
 
   if (!payment) return errorResponse("Payment not found", 404, origin);
+
   if (payment.status === "completed") {
-    return errorResponse("Payment already captured", 400, origin);
+    const { data: existingAccess } = await supabaseAdmin
+      .from("customer_access")
+      .select("access_token")
+      .eq("order_id", payment.order_id)
+      .eq("active", true)
+      .limit(1)
+      .single();
+
+    const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
+    return jsonResponse({
+      status: "completed",
+      accessToken: existingAccess?.access_token,
+      accessUrl: existingAccess
+        ? `${baseUrl}/calendario/?token=${existingAccess.access_token}`
+        : undefined,
+    }, 200, origin);
   }
 
   try {
     const capture = await capturePayPalOrder(paypalOrderId);
     const captureStatus = capture.status;
 
-    if (captureStatus === "COMPLETED") {
-      const unit = capture.purchase_units?.[0]?.payments?.captures?.[0];
-      const capturedAmount = unit?.amount?.value;
-      const capturedCurrency = unit?.amount?.currency_code;
-
-      if (
-        !capturedAmount ||
-        parseFloat(capturedAmount) !== parseFloat(String(payment.amount)) ||
-        (capturedCurrency && capturedCurrency !== payment.currency)
-      ) {
-        await supabaseAdmin
-          .from("payments")
-          .update({ status: "failed", raw_response: capture })
-          .eq("id", payment.id);
-        return errorResponse("Payment amount mismatch", 400, origin);
-      }
-    }
-
-    await supabaseAdmin
-      .from("payments")
-      .update({
-        status: captureStatus === "COMPLETED" ? "completed" : "failed",
-        raw_response: capture,
-        verified_at: captureStatus === "COMPLETED" ? new Date().toISOString() : null,
-      })
-      .eq("id", payment.id);
-
-    if (captureStatus === "COMPLETED") {
+    if (captureStatus !== "COMPLETED") {
       await supabaseAdmin
-        .from("orders")
-        .update({ status: "paid" })
-        .eq("id", payment.order_id);
-
-      const { data: order } = await supabaseAdmin
-        .from("orders")
-        .select("id, reference, customer_id, customer:customers(name, email)")
-        .eq("id", payment.order_id)
-        .single();
-
-      if (order) {
-        const accessToken = randomBytes(32).toString("hex");
-        await supabaseAdmin.from("customer_access").insert({
-          customer_id: order.customer_id,
-          order_id: order.id,
-          access_token: accessToken,
-          active: true,
-        });
-
-        const customerArr = order.customer as unknown as { name: string; email: string }[] | null;
-        const customer = Array.isArray(customerArr) ? customerArr[0] : customerArr;
-        const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
-        const accessUrl = `${baseUrl}/calendario/?token=${accessToken}`;
-
-        if (!customer) {
-          return jsonResponse({ status: "completed", accessToken, accessUrl }, 200, origin);
-        }
-
-        try {
-          const confirmResult = await sendEmail({
-            to: customer.email,
-            subject: "Tu compra de 14 días de dulce amor",
-            html: purchaseConfirmationHtml(customer.name, order.reference),
-          });
-          await supabaseAdmin.from("email_logs").insert({
-            customer_id: order.customer_id,
-            template: "purchase_confirmation",
-            subject: "Tu compra de 14 días de dulce amor",
-            to_email: customer.email,
-            status: "sent",
-            resend_id: confirmResult.id,
-          });
-        } catch {
-          // Email failure should not break the payment flow
-        }
-
-        try {
-          const accessResult = await sendEmail({
-            to: customer.email,
-            subject: "¡Tu calendario está listo!",
-            html: accessGrantedHtml(customer.name, accessUrl),
-          });
-          await supabaseAdmin.from("email_logs").insert({
-            customer_id: order.customer_id,
-            template: "access_granted",
-            subject: "¡Tu calendario está listo!",
-            to_email: customer.email,
-            status: "sent",
-            resend_id: accessResult.id,
-          });
-        } catch {
-          // Email failure should not break the payment flow
-        }
-
-        return jsonResponse({
-          status: "completed",
-          accessToken,
-          accessUrl,
-        }, 200, origin);
-      }
+        .from("payments")
+        .update({ status: "failed", raw_response: capture })
+        .eq("id", payment.id);
+      return jsonResponse({ status: captureStatus.toLowerCase() }, 200, origin);
     }
 
-    return jsonResponse({ status: captureStatus.toLowerCase() }, 200, origin);
+    const unit = capture.purchase_units?.[0]?.payments?.captures?.[0];
+    const capturedAmount = unit?.amount?.value;
+    const capturedCurrency = unit?.amount?.currency_code;
+
+    const result = await finalizePayment({
+      paymentId: payment.id,
+      externalId: paypalOrderId,
+      captureAmount: capturedAmount ? parseFloat(capturedAmount) : undefined,
+      captureCurrency: capturedCurrency ?? undefined,
+      rawResponse: capture,
+      idempotencyKey: `paypal_capture_${paypalOrderId}`,
+    });
+
+    if (!result.success) {
+      return errorResponse(result.error ?? "Finalization failed", 400, origin);
+    }
+
+    const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
+    return jsonResponse({
+      status: "completed",
+      accessToken: result.accessToken,
+      accessUrl: result.accessToken
+        ? `${baseUrl}/calendario/?token=${result.accessToken}`
+        : undefined,
+    }, 200, origin);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Capture failed";
     return errorResponse(message, 502, origin);

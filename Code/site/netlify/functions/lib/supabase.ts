@@ -1,13 +1,32 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const PLACEHOLDER_URL = "https://placeholder.supabase.co";
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL || PLACEHOLDER_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder";
 const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder";
 
-export const supabaseAdmin = createClient(url, serviceKey);
-export const supabasePublic = createClient(url, anonKey);
+export const supabaseConfigured = url !== PLACEHOLDER_URL && serviceKey !== "placeholder";
 
-export const supabaseConfigured = url !== "https://placeholder.supabase.co";
+let _admin: SupabaseClient | null = null;
+let _public: SupabaseClient | null = null;
+
+function getAdmin(): SupabaseClient {
+  if (!supabaseConfigured) throw new Error("SUPABASE_NOT_CONFIGURED");
+  if (!_admin) _admin = createClient(url, serviceKey);
+  return _admin;
+}
+function getPublic(): SupabaseClient {
+  if (!supabaseConfigured) throw new Error("SUPABASE_NOT_CONFIGURED");
+  if (!_public) _public = createClient(url, anonKey);
+  return _public;
+}
+
+export const supabaseAdmin: SupabaseClient = new Proxy({} as SupabaseClient, {
+  get(_target, prop) { return Reflect.get(getAdmin(), prop); },
+});
+export const supabasePublic: SupabaseClient = new Proxy({} as SupabaseClient, {
+  get(_target, prop) { return Reflect.get(getPublic(), prop); },
+});
 
 export const CALENDAR_TZ = process.env.CALENDAR_TIMEZONE ?? "America/Puerto_Rico";
 export const CALENDAR_OPEN_HOUR = Number(process.env.CALENDAR_OPEN_HOUR ?? 8);
@@ -39,6 +58,17 @@ export function nextUnlockTime(): Date | null {
   for (let d = 1; d <= 14; d++) {
     const t = getUnlockTime(d);
     if (t.getTime() > now) return t;
+  }
+  return null;
+}
+
+export function requireSupabase(origin?: string): Response | null {
+  if (!supabaseConfigured) {
+    return jsonResponse(
+      { error: "El servicio no está configurado. Intente más tarde." },
+      503,
+      origin,
+    );
   }
   return null;
 }
