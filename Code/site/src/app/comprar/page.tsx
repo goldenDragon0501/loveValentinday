@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { checkout, createPayPalOrder, capturePayPalOrder } from "@/lib/api";
+import { checkout } from "@/lib/api";
 import type { CheckoutResult } from "@/lib/api";
 
 type PaymentMethod = "paypal" | "ath_movil" | "zelle";
@@ -14,7 +14,7 @@ const METHODS: { id: PaymentMethod; label: string; desc: string }[] = [
   { id: "zelle", label: "Zelle", desc: "Transferencia directa por Zelle" },
 ];
 
-type Step = "form" | "processing" | "zelle-instructions" | "success" | "error";
+type Step = "form" | "processing" | "paypal-pending" | "ath-pending" | "zelle-instructions" | "success" | "error";
 
 export default function ComprarPage() {
   const [name, setName] = useState("");
@@ -23,7 +23,7 @@ export default function ComprarPage() {
   const [step, setStep] = useState<Step>("form");
   const [result, setResult] = useState<CheckoutResult | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const [accessUrl, setAccessUrl] = useState("");
+  const [accessUrl] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -40,17 +40,14 @@ export default function ComprarPage() {
       }
 
       if (method === "paypal") {
-        const pp = await createPayPalOrder(res.order.id);
-        // In production, this would redirect to PayPal's approval URL.
-        // For now, we capture directly (sandbox flow).
-        const capture = await capturePayPalOrder(pp.paypalOrderId);
-        if (capture.accessUrl) setAccessUrl(capture.accessUrl);
-        setStep("success");
+        setStep("paypal-pending");
         return;
       }
 
-      // ATH Móvil — handled by ATH Móvil Business SDK on client
-      setStep("success");
+      if (method === "ath_movil") {
+        setStep("ath-pending");
+        return;
+      }
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "Error inesperado");
       setStep("error");
@@ -180,6 +177,42 @@ export default function ComprarPage() {
               </p>
               <p className="text-sm text-ink/50">
                 Una vez verificado el pago, recibirás un correo con tu enlace de acceso al calendario.
+              </p>
+            </div>
+          )}
+
+          {step === "paypal-pending" && result && (
+            <div className="rounded-2xl border border-ink/10 bg-white p-6 space-y-4 text-center">
+              <h2 className="font-playfair text-xl font-bold text-ink">
+                Pago con PayPal
+              </h2>
+              <p className="text-ink/70">
+                Tu orden <strong>{result.order.reference}</strong> ha sido creada.
+                La integración con PayPal requiere las credenciales del comercio (Sandbox o producción).
+              </p>
+              <p className="text-sm text-ink/50">
+                Una vez configurado el PayPal Client ID en las variables de entorno, el botón de PayPal aparecerá aquí para completar el pago.
+              </p>
+              <p className="rounded-xl bg-gold/10 p-3 text-sm text-gold font-semibold">
+                BLOCKED: requiere PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET
+              </p>
+            </div>
+          )}
+
+          {step === "ath-pending" && result && (
+            <div className="rounded-2xl border border-ink/10 bg-white p-6 space-y-4 text-center">
+              <h2 className="font-playfair text-xl font-bold text-ink">
+                Pago con ATH Móvil
+              </h2>
+              <p className="text-ink/70">
+                Tu orden <strong>{result.order.reference}</strong> ha sido creada.
+                La integración con ATH Móvil Business requiere los tokens del comercio.
+              </p>
+              <p className="text-sm text-ink/50">
+                La API de ATH Móvil Business necesita configuración de merchant tokens y el SDK de cliente.
+              </p>
+              <p className="rounded-xl bg-gold/10 p-3 text-sm text-gold font-semibold">
+                BLOCKED: requiere ATH_MOVIL_PUBLIC_TOKEN y ATH_MOVIL_PRIVATE_TOKEN
               </p>
             </div>
           )}

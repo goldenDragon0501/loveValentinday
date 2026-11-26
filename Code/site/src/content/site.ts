@@ -18,9 +18,8 @@ export const site = {
   launch: "2027-02-01T08:00:00-04:00",
   openTime: "8:00 a. m.",
   days: 14,
-  // TODO(Q2, Q3, B02): checkout and buyer area links, available after the platform decision.
-  checkoutUrl: null as string | null,
-  buyerAreaUrl: null as string | null,
+  checkoutUrl: "/comprar/" as string | null,
+  buyerAreaUrl: "/calendario/" as string | null,
   // TODO(B03): real price. Null shows "muy pronto".
   price: null as null | { amount: number; regular?: number; currency: string },
 };

@@ -27,7 +27,7 @@ export default async function handler(req: Request, _context: Context) {
 
   const { data: payment } = await supabaseAdmin
     .from("payments")
-    .select("id, order_id, status")
+    .select("id, order_id, amount, currency, status")
     .eq("external_id", paypalOrderId)
     .eq("payment_method", "paypal")
     .single();
@@ -40,6 +40,24 @@ export default async function handler(req: Request, _context: Context) {
   try {
     const capture = await capturePayPalOrder(paypalOrderId);
     const captureStatus = capture.status;
+
+    if (captureStatus === "COMPLETED") {
+      const unit = capture.purchase_units?.[0]?.payments?.captures?.[0];
+      const capturedAmount = unit?.amount?.value;
+      const capturedCurrency = unit?.amount?.currency_code;
+
+      if (
+        !capturedAmount ||
+        parseFloat(capturedAmount) !== parseFloat(String(payment.amount)) ||
+        (capturedCurrency && capturedCurrency !== payment.currency)
+      ) {
+        await supabaseAdmin
+          .from("payments")
+          .update({ status: "failed", raw_response: capture })
+          .eq("id", payment.id);
+        return errorResponse("Payment amount mismatch", 400, origin);
+      }
+    }
 
     await supabaseAdmin
       .from("payments")

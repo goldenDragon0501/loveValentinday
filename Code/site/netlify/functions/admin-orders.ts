@@ -74,6 +74,9 @@ export default async function handler(req: Request, _context: Context) {
     if (!order) return errorResponse("Order not found", 404, origin);
 
     if (action === "approve") {
+      if (order.status === "paid") {
+        return errorResponse("Order has already been approved", 400, origin);
+      }
       await supabaseAdmin
         .from("orders")
         .update({ status: "paid", notes })
@@ -122,6 +125,9 @@ export default async function handler(req: Request, _context: Context) {
     }
 
     if (action === "reject") {
+      if (order.status === "paid") {
+        return errorResponse("Cannot reject a paid order", 400, origin);
+      }
       await supabaseAdmin
         .from("orders")
         .update({ status: "failed", notes })

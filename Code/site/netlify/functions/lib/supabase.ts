@@ -1,11 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder";
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder";
 
 export const supabaseAdmin = createClient(url, serviceKey);
 export const supabasePublic = createClient(url, anonKey);
+
+export const supabaseConfigured = url !== "https://placeholder.supabase.co";
 
 export const CALENDAR_TZ = process.env.CALENDAR_TIMEZONE ?? "America/Puerto_Rico";
 export const CALENDAR_OPEN_HOUR = Number(process.env.CALENDAR_OPEN_HOUR ?? 8);
@@ -14,10 +16,7 @@ export const CALENDAR_YEAR = Number(process.env.CALENDAR_YEAR ?? 2027);
 export function getUnlockTime(dayNumber: number): Date {
   const dateStr = `${CALENDAR_YEAR}-02-${String(dayNumber).padStart(2, "0")}`;
   const hour = String(CALENDAR_OPEN_HOUR).padStart(2, "0");
-  const dt = new Date(`${dateStr}T${hour}:00:00`);
-  const prOffset = -4 * 60;
-  const localOffset = dt.getTimezoneOffset();
-  return new Date(dt.getTime() + (localOffset - prOffset) * 60_000);
+  return new Date(`${dateStr}T${hour}:00:00-04:00`);
 }
 
 export function nowInPR(): Date {

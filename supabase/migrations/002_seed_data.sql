@@ -3,10 +3,11 @@
 -- Only includes content confirmed from the client's YouTube channel.
 
 -- Product
-INSERT INTO products (name, description, currency, active)
+INSERT INTO products (name, description, price, currency, active)
 VALUES (
   '14 días de dulce amor',
   'Calendario de San Valentín 2027. 14 días de recetas para endulzar el amor.',
+  0.00,  -- TODO(Pedro): set actual price before launch
   'USD',
   true
 );
