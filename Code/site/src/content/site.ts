@@ -44,10 +44,11 @@ export const intro = {
 };
 
 // What each day holds. Pedro will send the order of the recipes (voice note, 22 Nov), so days 1 to 13 stay
-// unnamed until then. Day 14 is fixed: no video, a plan for Valentine's Day.
-export const schedule: { title: string | null; kind: "recipe" | "plan" }[] = [
+// unnamed until then. Day 14 closes with the beverage video + optional plan download.
+export type DayKind = "recipe" | "plan" | "beverage" | "special";
+export const schedule: { title: string | null; kind: DayKind; recipeSlug?: string }[] = [
   ...Array.from({ length: 13 }, () => ({ title: null, kind: "recipe" as const })),
-  { title: "Tu plan para el 14 de febrero", kind: "plan" },
+  { title: "Super coquito de Nutella", kind: "special", recipeSlug: "super-coquito-de-nutella" },
 ];
 
 // "¿Qué encontrarás dentro?" from the demo, now with Pedro's real recipes and his seasonal extras.
@@ -56,7 +57,7 @@ export const categories = [
   { icon: "heart-cake", title: "Paso a paso", list: ["Videos en YouTube", "Receta para descargar", "Consejos de Pedro"] },
   { icon: "piping-bag", title: "Decoración", text: "Ideas sencillas y elegantes para presentar y regalar tus postres." },
   { icon: "hot-cocoa", title: "Bebidas y comidas", text: "Recetas de bebidas y de comida apropiadas para la temporada." },
-  { icon: "ganache-drip", title: "Día 14: tu plan", text: "Un descargable especial para disfrutar San Valentín con calma." },
+  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Una bebida especial y un plan para disfrutar San Valentín con calma." },
 ] as const;
 
 // "Mucho más que videos": only what the calendar really includes.
@@ -91,10 +92,10 @@ export const highlights = [
 export const buyNote = "Cómpralo en cualquier momento del año: no importa cuándo lo compres, tu calendario abre el 1 de febrero.";
 
 export const included = [
-  "Una receta para descargar cada día, del 1 al 13 de febrero",
+  "Una receta para descargar cada día, del 1 al 14 de febrero",
   "Videos paso a paso de Pedro en YouTube",
-  "Recetas de bebidas y comidas de temporada",
-  "Día 14: tu plan especial para San Valentín",
+  "Recetas de postres, bebidas y comidas de temporada",
+  "Día 14: cierre especial con una bebida para brindar",
   "Acceso desde cualquier dispositivo",
 ];
 
@@ -106,6 +107,7 @@ export const faqs = [
   { q: "¿Puedo descargar las recetas?", a: "¡Sí! Cada receta se descarga para que la imprimas o la guardes en tu teléfono." },
   { q: "¿Qué pasa si compro después del 1 de febrero?", a: "Encontrarás abiertos todos los corazones de los días que ya pasaron, listos para ver." },
   { q: "¿Puedo regalarlo?", a: "Claro. Crea una tarjeta de amor en la sección «Regala» y compártela con quien quieras." },
+  { q: "¿Qué hay el día 14?", a: "El cierre especial del calendario: una bebida para brindar en San Valentín, con su video paso a paso de Pedro." },
 ];
 
 // TODO: replace with Pedro's own words and photo.
@@ -141,6 +143,7 @@ export const channel = { name: "Sabores y Secretos PR", url: "https://www.youtub
 export type Recipe = {
   slug: string;
   title: string;
+  category?: "dessert" | "beverage" | "meal" | "special";
   videos: { id: string; title: string }[];
   groups: { name?: string; items: string[] }[];
   steps?: string[];
@@ -202,16 +205,26 @@ export const recipes: Recipe[] = [
     groups: [{ items: ["1 2/3 tazas de harina preparada para bizcocho", "¼ taza de cocoa en polvo para hornear", "½ cdta. de bicarbonato de soda", "½ cdta. de canela en polvo", "¾ taza de chocolate semidulce", "1 ½ tazas de guineos maduros cortados en rueditas", "¾ taza de azúcar morena clara", "½ taza de aceite vegetal", "1/3 taza de crema agria (sour cream)", "2 huevos grandes", "2 cdtas. de extracto de vainilla"] }],
     bake: ["Hornea a 350 °F durante 20 a 22 minutos aproximadamente."],
   },
+  {
+    slug: "super-coquito-de-nutella",
+    title: "Super coquito de Nutella",
+    category: "beverage" as const,
+    videos: [{ id: "KvAklBTkOPc", title: "Super coquito de Nutella" }],
+    // TODO(Pedro): retrieve ingredients from the YouTube description or the client's documents.
+    groups: [],
+  },
 ];
 
-// Day 14 has no video: a different downloadable with a plan for Valentine's Day (Pedro's document).
+// Day 14: beverage video + optional downloadable plan. The plan download is pending client confirmation.
 export const day14Plan = {
   title: "Tu plan para el 14 de febrero",
-  intro: "Hoy no hay video: es tu día. Sigue este plan para disfrutarlo con calma.",
+  intro: "El cierre especial del calendario: una bebida para brindar y un plan para disfrutar tu San Valentín.",
   steps: [
     "Prepárate un desayuno para que puedas comenzar bien el día.",
     "Ten listos tus pedidos de antemano. Solo deja para último momento colocar algunos pedidos en cajas, de ser necesario, y sus decoraciones.",
     "Date un baño, vístete y arréglate para entregar los pedidos.",
     "Ya en la tarde, descansa para cualquier evento o actividad que tengas en la noche.",
   ],
+  // TODO(Pedro): confirm whether the downloadable plan also appears alongside the video on Day 14.
+  hasDownload: false,
 };

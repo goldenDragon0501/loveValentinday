@@ -2,3 +2,12 @@
   base = "Code/site"
   command = "npm run build"
   publish = "out"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "no-store"

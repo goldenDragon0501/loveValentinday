@@ -36,6 +36,7 @@ export function Route() {
             const st = state(n);
             const right = n % 2 === 0;
             const day = schedule[n - 1];
+            const special = day.kind === "special";
             const plan = day.kind === "plan";
             // Pedro sends the order of the recipes later; until then the recipe is revealed on its day.
             const title = day.title ?? "Receta del día";
@@ -70,7 +71,9 @@ export function Route() {
                       {title}
                     </span>
                     <span className={`mt-3 flex flex-wrap items-center gap-2 ${right ? "" : "md:justify-end"}`}>
-                      {plan ? (
+                      {special ? (
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold text-rose-ink sm:px-3 sm:text-sm"><Icon name="heart" className="size-3.5 sm:size-4" />Cierre especial</span>
+                      ) : plan ? (
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold text-rose-ink sm:px-3 sm:text-sm"><Icon name="heart" className="size-3.5 sm:size-4" />Plan descargable</span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-bold text-rose-ink sm:px-3 sm:text-sm"><Icon name="recipe" className="size-3.5 sm:size-4" />Receta para descargar</span>
