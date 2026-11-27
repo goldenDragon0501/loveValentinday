@@ -16,8 +16,11 @@ supabase db push
 
 # Or manually in the SQL Editor (Dashboard > SQL Editor):
 # 1. Run 001_initial_schema.sql
-# 2. Run 002_audit_and_access.sql
+# 2. Run 002_seed_data.sql
 # 3. Run 003_security_hardening.sql
+# 4. Run 004_security_search_path.sql
+# 5. Run 005_client_recipe_order.sql
+# 6. Run 006_manual_sales.sql
 ```
 
 ### Migration 003 creates:
@@ -30,6 +33,13 @@ supabase db push
 - `customer_access.token_hash` column for secure token storage
 - Atomic `finalize_payment()` PostgreSQL function
 - `check_rate_limit()`, `get_setting()`, `set_setting()`, `claim_pending_emails()` functions
+
+### Migration 006 creates:
+
+- Makes `customer_access.order_id` nullable (for manual access grants without an order)
+- Adds `grant_type` column (`TEXT NOT NULL DEFAULT 'payment'`) to distinguish automated vs manual access
+- Adds `granted_by` column (`UUID REFERENCES admin_users`) to track which admin granted access
+- Adds `grant_notes` column (`TEXT`) for optional notes on manual grants
 
 ## 3. Configure Environment Variables
 
@@ -47,12 +57,12 @@ RLS is enabled on all tables. The Netlify Functions use the `service_role` key w
 
 ## 5. Initial Configuration
 
-After running migrations, the `app_settings` table is seeded with defaults. Use the admin dashboard (Configuracion tab) to set:
+After running migrations, the `app_settings` table is seeded with defaults. Use the admin dashboard (Configuración tab) to set:
 
 - Product price (in USD, stored as integer cents)
 - Sales enabled/disabled
-- Payment method toggles
-- Zelle recipient information
+
+Note: Automated payment methods (PayPal, ATH Móvil, Zelle) were disabled in Phase 9. The manual sales model is now active — customers are registered directly by the admin via the Clientes tab.
 
 ## 6. Create Admin User
 

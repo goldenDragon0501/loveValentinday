@@ -20,6 +20,12 @@ export const site = {
   days: 14,
   checkoutUrl: "/comprar/" as string | null,
   buyerAreaUrl: "/calendario/" as string | null,
+  contact: {
+    whatsapp: null as string | null,
+    email: null as string | null,
+    instagram: null as string | null,
+    whatsappMessage: "¡Hola! Me interesa el calendario *14 días de dulce amor* 🗓️💗",
+  },
   // TODO(B03): real price. Null shows "muy pronto".
   price: null as null | { amount: number; regular?: number; currency: string },
 };
@@ -42,21 +48,31 @@ export const intro = {
   lead: "Del 1 al 14 de febrero se abre un corazón nuevo cada mañana con una receta para descargar, videos paso a paso de Pedro en YouTube y trucos para que tus postres enamoren.",
 };
 
-// What each day holds. Pedro will send the order of the recipes (voice note, 22 Nov), so days 1 to 13 stay
-// unnamed until then. Day 14 closes with the beverage video + optional plan download.
 export type DayKind = "recipe" | "plan" | "beverage" | "special";
-export const schedule: { title: string | null; kind: DayKind; recipeSlug?: string }[] = [
-  ...Array.from({ length: 13 }, () => ({ title: null, kind: "recipe" as const })),
+export const schedule: { title: string; kind: DayKind; recipeSlug: string }[] = [
+  { title: "Bizcocho de chocolate sin harina", kind: "recipe", recipeSlug: "bizcocho-de-chocolate-sin-harina" },
+  { title: "Galletas de fresa y gotitas de chocolate", kind: "recipe", recipeSlug: "galletas-de-fresa-y-gotitas-de-chocolate" },
+  { title: "Los mejores mini cheesecakes de chocolate", kind: "recipe", recipeSlug: "mini-cheesecakes-de-chocolate" },
+  { title: "Cupcakes de chocolate y guineo", kind: "recipe", recipeSlug: "cupcakes-de-chocolate-y-guineo" },
+  { title: "Galletas de doble chocolate", kind: "recipe", recipeSlug: "galletas-de-doble-chocolate" },
+  { title: "Mantequilla de chocolate", kind: "recipe", recipeSlug: "mantequilla-de-chocolate" },
+  { title: "Limonada de fresa", kind: "recipe", recipeSlug: "limonada-de-fresa" },
+  { title: "Galletas de polvo de fresas", kind: "recipe", recipeSlug: "galletas-de-polvo-de-fresas" },
+  { title: "Bizcocho de chocolate con harina Swans Down", kind: "recipe", recipeSlug: "bizcocho-de-chocolate-con-harina-swans-down" },
+  { title: "Las mejores galletas de chocolate chips", kind: "recipe", recipeSlug: "las-mejores-galletas-de-chocolate-chips" },
+  { title: "Frosting de chocolate", kind: "recipe", recipeSlug: "frosting-de-chocolate" },
+  { title: "Dip cremoso de chocolate 1 y 2", kind: "recipe", recipeSlug: "dip-cremoso-de-chocolate" },
+  { title: "Galletas de Oreo y chocolate chips", kind: "recipe", recipeSlug: "galletas-de-oreo-y-chocolate-chips" },
   { title: "Super coquito de Nutella", kind: "special", recipeSlug: "super-coquito-de-nutella" },
 ];
 
 // "¿Qué encontrarás dentro?" from the demo, now with Pedro's real recipes and his seasonal extras.
 export const categories = [
-  { icon: "strawberry", title: "Postres con chocolate", text: "Mini cheesecakes, bizcocho sin harina, cupcakes de chocolate y guineo y más." },
+  { icon: "strawberry", title: "Postres con chocolate", text: "Mini cheesecakes, bizcocho sin harina, cupcakes de chocolate y guineo, galletas de doble chocolate y más." },
   { icon: "heart-cake", title: "Paso a paso", list: ["Videos en YouTube", "Receta para descargar", "Consejos de Pedro"] },
-  { icon: "piping-bag", title: "Decoración", text: "Ideas sencillas y elegantes para presentar y regalar tus postres." },
-  { icon: "hot-cocoa", title: "Bebidas y comidas", text: "Recetas de bebidas y de comida apropiadas para la temporada." },
-  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Una bebida especial y un plan para disfrutar San Valentín con calma." },
+  { icon: "piping-bag", title: "Galletas y decoración", text: "Galletas de fresa, de chocolate chips, de Oreo y chocolate chips, con ideas para presentar y regalar." },
+  { icon: "hot-cocoa", title: "Bebidas y extras", text: "Limonada de fresa, frosting de chocolate, dip cremoso de chocolate y más para la temporada." },
+  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Super coquito de Nutella y un plan para disfrutar San Valentín con calma." },
 ] as const;
 
 // "Mucho más que videos": only what the calendar really includes.
@@ -152,20 +168,6 @@ export type Recipe = {
 
 export const recipes: Recipe[] = [
   {
-    slug: "mini-cheesecakes-de-chocolate",
-    title: "Los mejores mini cheesecakes de chocolate",
-    videos: [
-      { id: "YE1RcmFqKHE", title: "Los mejores mini cheesecakes de chocolate, parte 1" },
-      { id: "m9EkUKJQWDo", title: "Los mejores mini cheesecakes de chocolate, parte 2" },
-    ],
-    groups: [
-      { name: "Crust", items: ["12 galletas Oreo de chocolate", "2 1/2 cdas. de mantequilla sin sal, derretida"] },
-      { name: "Relleno", items: ["1/4 taza de heavy cream", "6 onzas de chocolate semidulce", "12 onzas de queso crema", "1/2 taza de azúcar granulada", "2 huevos grandes", "2 cdtas. de extracto de vainilla", "1 cda. de cocoa sin endulzar para repostería"] },
-      { name: "Ganache", items: ["1/4 taza de heavy cream", "3 onzas de chocolate semidulce"] },
-    ],
-    bake: ["Hornea el crust a 350 °F durante 5 minutos. Deja refrescar.", "Hornea el crust con el relleno a 325 °F durante 20 a 25 minutos aproximadamente."],
-  },
-  {
     slug: "bizcocho-de-chocolate-sin-harina",
     title: "Bizcocho de chocolate sin harina",
     videos: [{ id: "aRsS3trRyn4", title: "Bizcocho de chocolate sin harina" }],
@@ -186,13 +188,24 @@ export const recipes: Recipe[] = [
     ],
   },
   {
-    slug: "mantequilla-de-chocolate",
-    title: "Mantequilla de chocolate",
-    videos: [{ id: "iZ64emSEu9s", title: "Mantequilla de chocolate" }],
-    groups: [
-      { items: ["4 onzas (1/2 barra) de mantequilla sin sal", "1 cda. de cocoa en polvo para hornear", "1/2 cdta. de canela en polvo", "1/4 cdta. de extracto de vainilla", "1 cdta. de azúcar granulada", "1/4 cdta. de sal"] },
-      { name: "Para servir", items: ["Fresas frescas lavadas y cortadas a gusto", "Galletas dulces de preferencia, tipo María o Graham", "Una tabla de madera para presentar, de preferencia"] },
+    slug: "galletas-de-fresa-y-gotitas-de-chocolate",
+    title: "Galletas de fresa y gotitas de chocolate",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "mini-cheesecakes-de-chocolate",
+    title: "Los mejores mini cheesecakes de chocolate",
+    videos: [
+      { id: "YE1RcmFqKHE", title: "Los mejores mini cheesecakes de chocolate, parte 1" },
+      { id: "m9EkUKJQWDo", title: "Los mejores mini cheesecakes de chocolate, parte 2" },
     ],
+    groups: [
+      { name: "Crust", items: ["12 galletas Oreo de chocolate", "2 1/2 cdas. de mantequilla sin sal, derretida"] },
+      { name: "Relleno", items: ["1/4 taza de heavy cream", "6 onzas de chocolate semidulce", "12 onzas de queso crema", "1/2 taza de azúcar granulada", "2 huevos grandes", "2 cdtas. de extracto de vainilla", "1 cda. de cocoa sin endulzar para repostería"] },
+      { name: "Ganache", items: ["1/4 taza de heavy cream", "3 onzas de chocolate semidulce"] },
+    ],
+    bake: ["Hornea el crust a 350 °F durante 5 minutos. Deja refrescar.", "Hornea el crust con el relleno a 325 °F durante 20 a 25 minutos aproximadamente."],
   },
   {
     slug: "cupcakes-de-chocolate-y-guineo",
@@ -205,11 +218,68 @@ export const recipes: Recipe[] = [
     bake: ["Hornea a 350 °F durante 20 a 22 minutos aproximadamente."],
   },
   {
+    slug: "galletas-de-doble-chocolate",
+    title: "Galletas de doble chocolate",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "mantequilla-de-chocolate",
+    title: "Mantequilla de chocolate",
+    videos: [{ id: "iZ64emSEu9s", title: "Mantequilla de chocolate" }],
+    groups: [
+      { items: ["4 onzas (1/2 barra) de mantequilla sin sal", "1 cda. de cocoa en polvo para hornear", "1/2 cdta. de canela en polvo", "1/4 cdta. de extracto de vainilla", "1 cdta. de azúcar granulada", "1/4 cdta. de sal"] },
+      { name: "Para servir", items: ["Fresas frescas lavadas y cortadas a gusto", "Galletas dulces de preferencia, tipo María o Graham", "Una tabla de madera para presentar, de preferencia"] },
+    ],
+  },
+  {
+    slug: "limonada-de-fresa",
+    title: "Limonada de fresa",
+    category: "beverage" as const,
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "galletas-de-polvo-de-fresas",
+    title: "Galletas de polvo de fresas",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "bizcocho-de-chocolate-con-harina-swans-down",
+    title: "Bizcocho de chocolate con harina Swans Down",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "las-mejores-galletas-de-chocolate-chips",
+    title: "Las mejores galletas de chocolate chips",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "frosting-de-chocolate",
+    title: "Frosting de chocolate",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "dip-cremoso-de-chocolate",
+    title: "Dip cremoso de chocolate 1 y 2",
+    videos: [],
+    groups: [],
+  },
+  {
+    slug: "galletas-de-oreo-y-chocolate-chips",
+    title: "Galletas de Oreo y chocolate chips",
+    videos: [],
+    groups: [],
+  },
+  {
     slug: "super-coquito-de-nutella",
     title: "Super coquito de Nutella",
     category: "beverage" as const,
     videos: [{ id: "KvAklBTkOPc", title: "Super coquito de Nutella" }],
-    // TODO(Pedro): retrieve ingredients from the YouTube description or the client's documents.
     groups: [],
   },
 ];

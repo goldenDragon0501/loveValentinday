@@ -5,19 +5,19 @@ import { supabase } from "@/lib/supabase";
 import {
   getDashboard, getOrders, orderAction, getRecipes, getRecipe, saveRecipe,
   getCalendar, updateCalendarDay, getCustomers, getCustomer, customerAction,
-  getSettings, updateSettings,
+  getSettings, updateSettings, registerCustomer, generateAccessLink,
   type DashboardData, type OrderRow, type RecipeSummary, type RecipeDetail,
   type CalendarDay, type CustomerSummary, type SettingsData,
 } from "@/lib/admin-api";
 
-type Tab = "resumen" | "pedidos" | "recetas" | "calendario" | "clientes" | "config";
+type Tab = "resumen" | "clientes" | "recetas" | "calendario" | "config" | "pedidos";
 const TABS: { id: Tab; label: string }[] = [
   { id: "resumen", label: "Resumen" },
-  { id: "pedidos", label: "Pedidos" },
+  { id: "clientes", label: "Clientes" },
   { id: "recetas", label: "Recetas" },
   { id: "calendario", label: "Calendario" },
-  { id: "clientes", label: "Clientes" },
   { id: "config", label: "Configuración" },
+  { id: "pedidos", label: "Pedidos" },
 ];
 
 export default function AdminPage() {
@@ -105,9 +105,11 @@ export default function AdminPage() {
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
     paid: "bg-green-100 text-green-800",
+    active: "bg-green-100 text-green-800",
     pending: "bg-yellow-100 text-yellow-800",
     awaiting_verification: "bg-yellow-100 text-yellow-800",
     failed: "bg-red-100 text-red-800",
+    revoked: "bg-red-100 text-red-800",
     cancelled: "bg-gray-100 text-gray-800",
     refunded: "bg-purple-100 text-purple-800",
   };
@@ -607,6 +609,13 @@ function ClientesTab({ token, onMsg }: { token: string; onMsg: (m: string) => vo
   const [detail, setDetail] = useState<Awaited<ReturnType<typeof getCustomer>> | null>(null);
   const [loading, setLoading] = useState(true);
   const [ver, refresh] = useRefresh();
+  const [showRegister, setShowRegister] = useState(false);
+  const [regName, setRegName] = useState("");
+  const [regEmail, setRegEmail] = useState("");
+  const [regNotes, setRegNotes] = useState("");
+  const [registering, setRegistering] = useState(false);
+  const [generatedLink, setGeneratedLink] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -622,26 +631,105 @@ function ClientesTab({ token, onMsg }: { token: string; onMsg: (m: string) => vo
     try {
       setDetail(await getCustomer(token, id));
       setSelected(id);
+      setGeneratedLink(null);
+      setCopied(false);
     } catch { onMsg("Error al cargar cliente"); }
   }
 
+  async function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
+    setRegistering(true);
+    try {
+      const res = await registerCustomer(token, { name: regName, email: regEmail, notes: regNotes || undefined });
+      setGeneratedLink(res.accessUrl);
+      setCopied(false);
+      onMsg(res.existed ? `Cliente existente — nuevo enlace generado` : `Cliente registrado exitosamente`);
+      setRegName("");
+      setRegEmail("");
+      setRegNotes("");
+      setShowRegister(false);
+      refresh();
+      selectCustomer(res.customerId);
+    } catch (err) {
+      onMsg(err instanceof Error ? err.message : "Error al registrar");
+    }
+    setRegistering(false);
+  }
+
+  async function handleGenerateLink(customerId: string) {
+    try {
+      const res = await generateAccessLink(token, customerId);
+      setGeneratedLink(res.accessUrl);
+      setCopied(false);
+      onMsg("Nuevo enlace generado");
+      selectCustomer(customerId);
+    } catch (err) {
+      onMsg(err instanceof Error ? err.message : "Error al generar enlace");
+    }
+  }
+
+  function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    });
+  }
+
   if (selected && detail) {
+    const activeAccess = detail.access.find((a) => a.active);
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+    const activeAccessUrl = activeAccess?.access_token
+      ? `${baseUrl}/calendario/?token=${activeAccess.access_token}`
+      : null;
+    const displayUrl = generatedLink ?? activeAccessUrl;
+
     return (
       <div className="space-y-4">
-        <button onClick={() => { setSelected(null); setDetail(null); }} className="text-sm text-ink/50 hover:text-ink">← Volver</button>
+        <button onClick={() => { setSelected(null); setDetail(null); setGeneratedLink(null); }} className="text-sm text-ink/50 hover:text-ink">← Volver</button>
 
         <div className="rounded-2xl border border-ink/10 bg-white p-4">
           <h3 className="font-semibold text-ink">{detail.customer.name}</h3>
           <p className="text-sm text-ink/50">{detail.customer.email}</p>
         </div>
 
+        {displayUrl && (
+          <div className="rounded-2xl border border-green-200 bg-green-50 p-4 space-y-3">
+            <h4 className="font-semibold text-green-800">Enlace de acceso</h4>
+            <div className="flex items-center gap-2">
+              <input readOnly value={displayUrl}
+                className="flex-1 rounded-lg border border-green-200 bg-white px-3 py-2 text-sm font-mono text-ink/80 select-all" />
+              <button onClick={() => copyToClipboard(displayUrl)}
+                className={`rounded-lg px-4 py-2 text-sm font-semibold text-white transition-colors ${copied ? "bg-green-600" : "bg-rose hover:bg-rose/90"}`}>
+                {copied ? "Copiado" : "Copiar"}
+              </button>
+            </div>
+            <p className="text-xs text-green-700">Comparte este enlace con el cliente para que acceda al calendario.</p>
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-2">
+          <button onClick={() => handleGenerateLink(selected)}
+            className="rounded-xl bg-rose px-4 py-2 text-sm font-semibold text-white hover:bg-rose/90">
+            Generar nuevo enlace
+          </button>
+          <button onClick={async () => {
+            await customerAction(token, { action: "resend_access", customerId: selected });
+            onMsg("Correo enviado");
+          }} className="rounded-xl border border-ink/10 px-4 py-2 text-sm font-semibold text-ink/60 hover:bg-ink/5">
+            Enviar por correo
+          </button>
+        </div>
+
         {detail.access.length > 0 && (
           <div>
-            <h4 className="font-semibold text-ink mb-2">Acceso al calendario</h4>
+            <h4 className="font-semibold text-ink mb-2">Historial de acceso</h4>
             {detail.access.map((a) => (
               <div key={a.id} className="flex items-center gap-3 rounded-xl border border-ink/10 bg-white p-3 mb-2">
                 <StatusBadge status={a.active ? "active" : "revoked"} />
-                <span className="text-sm text-ink/50 flex-1">Último acceso: {a.last_accessed_at ? new Date(a.last_accessed_at).toLocaleDateString("es-PR") : "nunca"}</span>
+                <div className="flex-1 text-sm text-ink/50">
+                  <span>Último acceso: {a.last_accessed_at ? new Date(a.last_accessed_at).toLocaleDateString("es-PR") : "nunca"}</span>
+                  {(a as Record<string, unknown>).grant_type === "manual" && <span className="ml-2 text-xs bg-blue-100 text-blue-700 rounded px-1.5 py-0.5">Manual</span>}
+                </div>
                 <button onClick={async () => {
                   await customerAction(token, { action: a.active ? "revoke_access" : "activate_access", accessId: a.id });
                   onMsg(a.active ? "Acceso revocado" : "Acceso activado");
@@ -651,10 +739,6 @@ function ClientesTab({ token, onMsg }: { token: string; onMsg: (m: string) => vo
                 </button>
               </div>
             ))}
-            <button onClick={async () => {
-              await customerAction(token, { action: "resend_access", customerId: selected });
-              onMsg("Correo enviado");
-            }} className="text-sm text-rose hover:underline mt-1">Reenviar correo de acceso</button>
           </div>
         )}
 
@@ -689,11 +773,37 @@ function ClientesTab({ token, onMsg }: { token: string; onMsg: (m: string) => vo
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por nombre o email..."
-          className="flex-1 rounded-xl border border-ink/10 bg-white px-4 py-2 text-sm" />
+          className="flex-1 min-w-[200px] rounded-xl border border-ink/10 bg-white px-4 py-2 text-sm" />
         <button onClick={() => { setPage(1); refresh(); }} className="rounded-xl bg-ink px-4 py-2 text-sm text-white font-semibold">Buscar</button>
+        <button onClick={() => setShowRegister(!showRegister)}
+          className="rounded-xl bg-rose px-4 py-2 text-sm text-white font-semibold hover:bg-rose/90">
+          + Registrar cliente
+        </button>
       </div>
+
+      {showRegister && (
+        <form onSubmit={handleRegister} className="rounded-2xl border border-rose/20 bg-rose/5 p-4 space-y-3">
+          <h3 className="font-semibold text-ink">Registrar nuevo cliente</h3>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <input value={regName} onChange={(e) => setRegName(e.target.value)} required minLength={2}
+              className="rounded-xl border border-ink/10 bg-white px-4 py-2 text-sm" placeholder="Nombre del cliente" />
+            <input value={regEmail} onChange={(e) => setRegEmail(e.target.value)} required type="email"
+              className="rounded-xl border border-ink/10 bg-white px-4 py-2 text-sm" placeholder="correo@ejemplo.com" />
+          </div>
+          <input value={regNotes} onChange={(e) => setRegNotes(e.target.value)}
+            className="w-full rounded-xl border border-ink/10 bg-white px-4 py-2 text-sm" placeholder="Notas (opcional)" />
+          <div className="flex gap-3">
+            <button type="submit" disabled={registering}
+              className="rounded-xl bg-rose px-6 py-2 text-sm font-bold text-white hover:bg-rose/90 disabled:opacity-50">
+              {registering ? "Registrando..." : "Registrar y generar enlace"}
+            </button>
+            <button type="button" onClick={() => setShowRegister(false)}
+              className="rounded-xl border border-ink/10 px-4 py-2 text-sm text-ink/60">Cancelar</button>
+          </div>
+        </form>
+      )}
 
       {loading ? <Spinner /> : (
         <>
@@ -793,52 +903,13 @@ function ConfigTab({ token, onMsg }: { token: string; onMsg: (m: string) => void
       </section>
 
       <section className="rounded-2xl border border-ink/10 bg-white p-5 space-y-4">
-        <h3 className="font-semibold text-ink">Métodos de pago</h3>
-        <div className="space-y-3">
-          {[
-            { key: "paypal_enabled", label: "PayPal", ready: data.integrations.paypal },
-            { key: "ath_movil_enabled", label: "ATH Móvil", ready: data.integrations.ath_movil },
-            { key: "zelle_enabled", label: "Zelle", ready: data.integrations.zelle },
-          ].map((m) => (
-            <div key={m.key} className="flex items-center justify-between">
-              <div>
-                <span className="text-sm text-ink">{m.label}</span>
-                {!m.ready && <span className="text-xs text-red-500 ml-2">(no configurado)</span>}
-              </div>
-              <input type="checkbox" checked={getValue(m.key) === true}
-                onChange={(e) => set(m.key, e.target.checked)} className="rounded" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-ink/10 bg-white p-5 space-y-4">
-        <h3 className="font-semibold text-ink">Zelle</h3>
-        <div className="grid gap-3">
-          {[
-            { key: "zelle_recipient_name", label: "Nombre del destinatario" },
-            { key: "zelle_recipient_email", label: "Email del destinatario" },
-            { key: "zelle_recipient_phone", label: "Teléfono del destinatario" },
-          ].map((f) => (
-            <div key={f.key}>
-              <label className="text-sm text-ink/60 block mb-1">{f.label}</label>
-              <input value={String(getValue(f.key) ?? "")}
-                onChange={(e) => set(f.key, e.target.value)}
-                className="w-full rounded-xl border border-ink/10 px-4 py-2 text-sm" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-ink/10 bg-white p-5 space-y-4">
-        <h3 className="font-semibold text-ink">Integraciones</h3>
-        <div className="grid gap-2 text-sm">
-          {Object.entries(data.integrations).map(([k, v]) => (
-            <div key={k} className="flex items-center gap-2">
-              <span className={`h-2 w-2 rounded-full ${v ? "bg-green-500" : "bg-red-400"}`} />
-              <span className="text-ink/70">{k}: {v ? "Configurado" : "No configurado"}</span>
-            </div>
-          ))}
+        <h3 className="font-semibold text-ink">Modelo de ventas</h3>
+        <div className="rounded-xl bg-blue-50 border border-blue-200 p-4 text-sm text-blue-800">
+          <p className="font-semibold">Ventas manuales activas</p>
+          <p className="mt-1 text-blue-700">
+            Los clientes te contactan directamente para comprar. Registra cada cliente
+            en la pestaña Clientes y comparte el enlace de acceso generado.
+          </p>
         </div>
       </section>
 

@@ -79,7 +79,7 @@ export interface CustomerSummary {
 
 export interface CustomerDetail extends CustomerSummary {
   orders: { id: string; reference: string; status: string; total: number; payment_method: string; created_at: string }[];
-  access: { id: string; active: boolean; expires_at: string | null; last_accessed_at: string | null; created_at: string; order_id: string }[];
+  access: { id: string; active: boolean; expires_at: string | null; last_accessed_at: string | null; created_at: string; order_id: string | null; grant_type?: string; access_token?: string }[];
 }
 
 export interface SettingRow {
@@ -160,6 +160,24 @@ export function customerAction(token: string, data: Record<string, unknown>) {
     method: "POST",
     body: JSON.stringify(data),
   });
+}
+
+export function registerCustomer(token: string, data: { name: string; email: string; notes?: string }) {
+  return adminFetch<{ status: string; customerId: string; accessToken: string; accessUrl: string; existed: boolean }>(
+    "/admin-customers", token, {
+      method: "POST",
+      body: JSON.stringify({ action: "register_customer", ...data }),
+    },
+  );
+}
+
+export function generateAccessLink(token: string, customerId: string, notes?: string) {
+  return adminFetch<{ status: string; accessToken: string; accessUrl: string }>(
+    "/admin-customers", token, {
+      method: "POST",
+      body: JSON.stringify({ action: "generate_access_link", customerId, notes }),
+    },
+  );
 }
 
 export function getSettings(token: string) {

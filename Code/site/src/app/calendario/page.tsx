@@ -11,6 +11,7 @@ import {
   recoverAccess,
 } from "@/lib/api";
 import type { CalendarStatus, DayContent, VerifyAccessResult } from "@/lib/api";
+import { day14Plan } from "@/content/site";
 
 function getStoredToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -84,7 +85,7 @@ function RecoveryForm() {
       <p className="text-sm text-ink/40">
         ¿No tienes el calendario?{" "}
         <a href="/comprar/" className="text-rose underline">
-          Cómpralo aquí
+          Consíguelo aquí
         </a>
       </p>
     </div>
@@ -234,6 +235,26 @@ function RecipeView({ content }: { content: DayContent }) {
             </div>
           )}
         </>
+      )}
+
+      {day.dayNumber === 14 && (
+        <div className="mt-8 rounded-2xl border-2 border-rose/20 bg-gradient-to-br from-rose/5 to-gold/5 p-6 space-y-4">
+          <h3 className="font-playfair text-xl font-bold text-ink">{day14Plan.title}</h3>
+          <p className="text-ink/60">{day14Plan.intro}</p>
+          <ol className="space-y-3">
+            {day14Plan.steps.map((step, i) => (
+              <li key={i} className="flex gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-rose/10 text-sm font-bold text-rose">
+                  {i + 1}
+                </span>
+                <span className="text-ink/70 pt-0.5">{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="text-center text-sm font-semibold text-rose mt-4">
+            ¡Feliz San Valentín! 💕
+          </p>
+        </div>
       )}
     </div>
   );

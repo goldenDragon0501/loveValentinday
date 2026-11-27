@@ -70,43 +70,7 @@ export function verifyAccess(token: string) {
   });
 }
 
-export interface CheckoutResult {
-  order: {
-    id: string;
-    reference: string;
-    total: number;
-    currency: string;
-    status: string;
-    paymentMethod: string;
-  };
-  zelle?: {
-    recipientName: string;
-    recipientEmail: string;
-    recipientPhone: string;
-    instructions: string;
-  };
-}
-
-export function checkout(email: string, name: string, paymentMethod: string) {
-  return apiFetch<CheckoutResult>("/checkout", {
-    method: "POST",
-    body: JSON.stringify({ email, name, paymentMethod }),
-  });
-}
-
-export function createPayPalOrder(orderId: string) {
-  return apiFetch<{ paypalOrderId: string }>("/paypal-create", {
-    method: "POST",
-    body: JSON.stringify({ orderId }),
-  });
-}
-
-export function capturePayPalOrder(paypalOrderId: string) {
-  return apiFetch<{ status: string; accessToken?: string; accessUrl?: string }>("/paypal-capture", {
-    method: "POST",
-    body: JSON.stringify({ paypalOrderId }),
-  });
-}
+// Phase 9: checkout, createPayPalOrder, capturePayPalOrder removed — manual sales model active
 
 export function recoverAccess(email: string) {
   return apiFetch<{ message: string }>("/recover-access", {

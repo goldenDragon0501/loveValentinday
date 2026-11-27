@@ -97,7 +97,7 @@ export function Recipes() {
           </Reveal>
         </div>
         <ul className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {recipes.map((r, i) => <RecipeTile key={r.slug} r={r} i={i} />)}
+          {recipes.filter((r) => r.videos.length > 0 && r.groups.length > 0).map((r, i) => <RecipeTile key={r.slug} r={r} i={i} />)}
         </ul>
       </div>
     </section>
