@@ -96,7 +96,7 @@ export function requireSupabase(origin?: string): Response | null {
 }
 
 export function corsHeaders(origin?: string) {
-  const allowed = env("PUBLIC_URL") ?? "https://lovevalentinday.netlify.app";
+  const allowed = env("PUBLIC_URL") ?? "https://lovevalentinday.shainiranasinghe57.workers.dev";
   return {
     "Access-Control-Allow-Origin": origin?.startsWith("http://localhost") ? origin : allowed,
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
