@@ -1,9 +1,9 @@
-import type { Context } from "@netlify/functions";
+import { env } from "../../worker/env";
 import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
 import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { sendEmail, accessGrantedHtml } from "./lib/email";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
@@ -39,7 +39,6 @@ export default async function handler(req: Request, _context: Context) {
 
   const normalizedEmail = email.trim().toLowerCase();
 
-  // Always return success to prevent email enumeration
   const genericMessage = "Si tienes una compra activa, recibirás un correo con tu enlace de acceso.";
 
   const { data: customer } = await supabaseAdmin
@@ -65,7 +64,7 @@ export default async function handler(req: Request, _context: Context) {
     return jsonResponse({ message: genericMessage }, 200, origin);
   }
 
-  const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
+  const baseUrl = env("PUBLIC_URL") ?? "https://lovevalentinday.netlify.app";
   const accessUrl = `${baseUrl}/calendario/?token=${access.access_token}`;
 
   try {

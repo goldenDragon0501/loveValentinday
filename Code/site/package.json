@@ -12,10 +12,11 @@
     "test": "vitest run",
     "assets": "node scripts/assets.mjs",
     "codex": "node scripts/codex.mjs",
-    "sheets": "node scripts/sheets.mjs"
+    "sheets": "node scripts/sheets.mjs",
+    "worker:dev": "wrangler dev",
+    "worker:deploy": "wrangler deploy"
   },
   "dependencies": {
-    "@netlify/functions": "^6.1.2",
     "@supabase/supabase-js": "^2.119.2",
     "next": "16.4.6",
     "react": "19.3.0",
@@ -31,6 +32,11 @@
     "sharp": "0.35.5",
     "tailwindcss": "4.3.3",
     "typescript": "^5",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "wrangler": "^4"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261127.1": true
   }
 }

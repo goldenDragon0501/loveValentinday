@@ -1,8 +1,7 @@
-import type { Context } from "@netlify/functions";
 import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
 import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {

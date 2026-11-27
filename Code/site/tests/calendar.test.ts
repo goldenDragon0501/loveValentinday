@@ -6,16 +6,16 @@ vi.stubEnv("CALENDAR_TIMEZONE", "America/Puerto_Rico");
 vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://placeholder.supabase.co");
 vi.stubEnv("SUPABASE_SERVICE_ROLE_KEY", "placeholder");
 
-const { getUnlockTime, getUnlockedDays, nextUnlockTime, CALENDAR_YEAR, CALENDAR_OPEN_HOUR } =
+const { getUnlockTime, getUnlockedDays, nextUnlockTime, getCalendarYear, getCalendarOpenHour } =
   await import("../netlify/functions/lib/supabase");
 
 describe("Calendar Configuration", () => {
   it("uses 2027 as the calendar year", () => {
-    expect(CALENDAR_YEAR).toBe(2027);
+    expect(getCalendarYear()).toBe(2027);
   });
 
   it("uses 8 AM as the open hour", () => {
-    expect(CALENDAR_OPEN_HOUR).toBe(8);
+    expect(getCalendarOpenHour()).toBe(8);
   });
 });
 

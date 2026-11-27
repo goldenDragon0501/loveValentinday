@@ -1,14 +1,17 @@
-const PAYPAL_API =
-  process.env.PAYPAL_ENVIRONMENT === "production"
+import { env } from "../../../worker/env";
+
+function getPaypalApi(): string {
+  return env("PAYPAL_ENVIRONMENT") === "production"
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
+}
 
 async function getAccessToken(): Promise<string> {
-  const clientId = process.env.PAYPAL_CLIENT_ID ?? "";
-  const secret = process.env.PAYPAL_CLIENT_SECRET ?? "";
-  const auth = Buffer.from(`${clientId}:${secret}`).toString("base64");
+  const clientId = env("PAYPAL_CLIENT_ID") ?? "";
+  const secret = env("PAYPAL_CLIENT_SECRET") ?? "";
+  const auth = btoa(`${clientId}:${secret}`);
 
-  const res = await fetch(`${PAYPAL_API}/v1/oauth2/token`, {
+  const res = await fetch(`${getPaypalApi()}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -25,7 +28,7 @@ async function getAccessToken(): Promise<string> {
 export async function createPayPalOrder(amount: string, currency: string, reference: string) {
   const token = await getAccessToken();
 
-  const res = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
+  const res = await fetch(`${getPaypalApi()}/v2/checkout/orders`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,7 +62,7 @@ export async function createPayPalOrder(amount: string, currency: string, refere
 export async function capturePayPalOrder(orderId: string) {
   const token = await getAccessToken();
 
-  const res = await fetch(`${PAYPAL_API}/v2/checkout/orders/${orderId}/capture`, {
+  const res = await fetch(`${getPaypalApi()}/v2/checkout/orders/${orderId}/capture`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

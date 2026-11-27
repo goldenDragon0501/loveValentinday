@@ -1,4 +1,4 @@
-import type { Context } from "@netlify/functions";
+import { env } from "../../worker/env";
 import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
 import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { verifyAdmin } from "./lib/admin-auth";
@@ -20,7 +20,7 @@ const EDITABLE_KEYS = [
   "zelle_enabled",
 ];
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
@@ -62,23 +62,23 @@ export default async function handler(req: Request, _context: Context) {
       warnings.push("El precio del producto no está configurado.");
     }
 
-    if (!process.env.PAYPAL_CLIENT_ID) {
+    if (!env("PAYPAL_CLIENT_ID")) {
       warnings.push("PayPal no está configurado (falta PAYPAL_CLIENT_ID).");
     }
 
-    if (!process.env.ATH_MOVIL_PUBLIC_TOKEN) {
+    if (!env("ATH_MOVIL_PUBLIC_TOKEN")) {
       warnings.push("ATH Móvil no está configurado (falta ATH_MOVIL_PUBLIC_TOKEN).");
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    if (!env("RESEND_API_KEY")) {
       warnings.push("El correo electrónico no está configurado (falta RESEND_API_KEY).");
     }
 
     const integrations = {
       supabase: true,
-      paypal: !!process.env.PAYPAL_CLIENT_ID,
-      ath_movil: !!process.env.ATH_MOVIL_PUBLIC_TOKEN,
-      resend: !!process.env.RESEND_API_KEY,
+      paypal: !!env("PAYPAL_CLIENT_ID"),
+      ath_movil: !!env("ATH_MOVIL_PUBLIC_TOKEN"),
+      resend: !!env("RESEND_API_KEY"),
       zelle: !!(settingsMap["zelle_recipient_name"] || settingsMap["zelle_recipient_email"]),
     };
 

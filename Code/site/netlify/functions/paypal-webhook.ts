@@ -1,7 +1,6 @@
-import type { Context } from "@netlify/functions";
 import { errorResponse } from "./lib/supabase";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   // Phase 9: automated payments disabled — manual sales model active
   if (req.method !== "POST") {
     return errorResponse("Method not allowed", 405);

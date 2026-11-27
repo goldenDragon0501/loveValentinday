@@ -1,3 +1,5 @@
+import { env } from "../../../worker/env";
+
 const RESEND_API = "https://api.resend.com";
 
 interface SendEmailParams {
@@ -8,11 +10,11 @@ interface SendEmailParams {
 }
 
 export async function sendEmail(params: SendEmailParams): Promise<{ id: string }> {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = env("RESEND_API_KEY");
   if (!apiKey) throw new Error("RESEND_API_KEY not configured");
 
-  const fromEmail = process.env.RESEND_FROM_EMAIL ?? "noreply@example.com";
-  const fromName = process.env.RESEND_FROM_NAME ?? "14 días de dulce amor";
+  const fromEmail = env("RESEND_FROM_EMAIL") ?? "noreply@example.com";
+  const fromName = env("RESEND_FROM_NAME") ?? "14 días de dulce amor";
 
   const res = await fetch(`${RESEND_API}/emails`, {
     method: "POST",

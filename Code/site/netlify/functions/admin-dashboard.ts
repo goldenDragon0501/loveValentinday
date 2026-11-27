@@ -1,9 +1,9 @@
-import type { Context } from "@netlify/functions";
+import { env } from "../../worker/env";
 import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
 import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { verifyAdmin } from "./lib/admin-auth";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
@@ -82,8 +82,8 @@ export default async function handler(req: Request, _context: Context) {
   if (!priceCents || (typeof priceCents === "number" && priceCents <= 0)) {
     warnings.push("El precio del producto no está configurado.");
   }
-  if (!process.env.RESEND_API_KEY) warnings.push("Email no configurado.");
-  if (!process.env.PAYPAL_CLIENT_ID) warnings.push("PayPal no configurado.");
+  if (!env("RESEND_API_KEY")) warnings.push("Email no configurado.");
+  if (!env("PAYPAL_CLIENT_ID")) warnings.push("PayPal no configurado.");
 
   return jsonResponse({
     stats: {

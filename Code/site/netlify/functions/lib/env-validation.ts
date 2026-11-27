@@ -1,3 +1,5 @@
+import { env } from "../../../worker/env";
+
 type EnvGroup = {
   name: string;
   required: boolean;
@@ -12,7 +14,7 @@ function isPlaceholder(val: string): boolean {
 }
 
 function isPresent(key: string): boolean {
-  const val = process.env[key];
+  const val = env(key);
   return typeof val === "string" && val.length > 0 && !isPlaceholder(val);
 }
 
@@ -55,7 +57,6 @@ export function validateEnv(): {
         { key: "CRON_SECRET", present: isPresent("CRON_SECRET") },
       ],
     },
-    // Phase 9: payment groups below are legacy — automated payments disabled
     {
       name: "PayPal (deshabilitado)",
       required: false,

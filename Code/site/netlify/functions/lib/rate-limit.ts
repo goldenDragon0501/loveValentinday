@@ -23,7 +23,7 @@ const ENDPOINT_LIMITS: Record<string, RateLimitConfig> = {
 
 function getClientIp(req: Request): string {
   return (
-    req.headers.get("x-nf-client-connection-ip") ??
+    req.headers.get("cf-connecting-ip") ??
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     "unknown"
   );
@@ -40,7 +40,7 @@ export async function checkRateLimit(
   req: Request,
   endpoint: string,
 ): Promise<{ allowed: boolean; retryAfter: number }> {
-  if (!supabaseConfigured) {
+  if (!supabaseConfigured()) {
     return { allowed: true, retryAfter: 0 };
   }
 

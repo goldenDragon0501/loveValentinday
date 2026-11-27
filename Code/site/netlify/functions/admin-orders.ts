@@ -1,4 +1,4 @@
-import type { Context } from "@netlify/functions";
+import { env } from "../../worker/env";
 import { corsHeaders, errorResponse, jsonResponse, requireSupabase, supabaseAdmin } from "./lib/supabase";
 import { checkRateLimit, rateLimitHeaders } from "./lib/rate-limit";
 import { finalizePayment } from "./lib/finalize-payment";
@@ -20,7 +20,7 @@ async function verifyAdmin(req: Request): Promise<string | null> {
   return admin?.id ?? null;
 }
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
@@ -163,7 +163,7 @@ export default async function handler(req: Request, _context: Context) {
 
       const { queueEmail } = await import("./lib/email-queue");
       const { accessGrantedHtml } = await import("./lib/email");
-      const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
+      const baseUrl = env("PUBLIC_URL") ?? "https://lovevalentinday.netlify.app";
       const accessUrl = `${baseUrl}/calendario/?token=${access.access_token}`;
 
       await queueEmail({

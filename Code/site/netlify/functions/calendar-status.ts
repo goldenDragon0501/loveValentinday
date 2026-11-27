@@ -1,7 +1,6 @@
-import type { Context } from "@netlify/functions";
-import { corsHeaders, errorResponse, getUnlockedDays, jsonResponse, nextUnlockTime, nowInPR, CALENDAR_YEAR } from "./lib/supabase";
+import { corsHeaders, errorResponse, getUnlockedDays, jsonResponse, nextUnlockTime, nowInPR, getCalendarYear } from "./lib/supabase";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
@@ -16,9 +15,10 @@ export default async function handler(req: Request, _context: Context) {
   const prNow = nowInPR();
   const unlocked = getUnlockedDays();
   const nextUnlock = nextUnlockTime();
+  const year = getCalendarYear();
 
-  const calendarStart = new Date(`${CALENDAR_YEAR}-02-01T08:00:00-04:00`);
-  const calendarEnd = new Date(`${CALENDAR_YEAR}-02-14T08:00:00-04:00`);
+  const calendarStart = new Date(`${year}-02-01T08:00:00-04:00`);
+  const calendarEnd = new Date(`${year}-02-14T08:00:00-04:00`);
 
   const started = now.getTime() >= calendarStart.getTime();
   const ended = now.getTime() >= calendarEnd.getTime() + 24 * 60 * 60 * 1000;

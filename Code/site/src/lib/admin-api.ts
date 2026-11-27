@@ -1,4 +1,4 @@
-const API = "/.netlify/functions";
+const API = "/api";
 
 function authHeaders(token: string) {
   return { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };

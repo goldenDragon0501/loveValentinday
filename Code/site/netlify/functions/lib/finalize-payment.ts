@@ -1,3 +1,4 @@
+import { env } from "../../../worker/env";
 import { supabaseAdmin } from "./supabase";
 import { queueEmail } from "./email-queue";
 import { accessGrantedHtml, purchaseConfirmationHtml } from "./email";
@@ -54,7 +55,7 @@ export async function finalizePayment(params: FinalizeParams): Promise<FinalizeR
   }
 
   if (!result.already_completed && result.customer_email && result.access_token) {
-    const baseUrl = process.env.PUBLIC_URL ?? "https://lovevalentinday.netlify.app";
+    const baseUrl = env("PUBLIC_URL") ?? "https://lovevalentinday.netlify.app";
     const accessUrl = `${baseUrl}/calendario/?token=${result.access_token}`;
 
     await queueEmail({

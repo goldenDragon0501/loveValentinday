@@ -1,8 +1,8 @@
-import type { Context } from "@netlify/functions";
+import { env } from "../../worker/env";
 import { jsonResponse, requireSupabase } from "./lib/supabase";
 import { processEmailQueue } from "./lib/email-queue";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   if (req.method !== "POST") {
     return jsonResponse({ error: "Method not allowed" }, 405);
   }
@@ -10,7 +10,7 @@ export default async function handler(req: Request, _context: Context) {
   const dbCheck = requireSupabase();
   if (dbCheck) return dbCheck;
 
-  const cronSecret = process.env.CRON_SECRET;
+  const cronSecret = env("CRON_SECRET");
   if (cronSecret) {
     const auth = req.headers.get("authorization");
     if (auth !== `Bearer ${cronSecret}`) {

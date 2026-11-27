@@ -1,7 +1,6 @@
-import type { Context } from "@netlify/functions";
 import { corsHeaders, errorResponse } from "./lib/supabase";
 
-export default async function handler(req: Request, _context: Context) {
+export default async function handler(req: Request) {
   const origin = req.headers.get("origin") ?? undefined;
 
   if (req.method === "OPTIONS") {
