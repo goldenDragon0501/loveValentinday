@@ -119,7 +119,7 @@ describe("Phase 8: Recipes array", () => {
     expect(dip!.title).toContain("1 y 2");
   });
 
-  it("new skeleton recipes have empty groups and videos", () => {
+  it("new skeleton recipes have empty groups (ingredients pending from client)", () => {
     const skeletonSlugs = [
       "galletas-de-fresa-y-gotitas-de-chocolate",
       "galletas-de-doble-chocolate",
@@ -135,7 +135,7 @@ describe("Phase 8: Recipes array", () => {
       const recipe = recipes.find((r) => r.slug === slug);
       expect(recipe, `recipe ${slug} should exist`).toBeDefined();
       expect(recipe!.groups).toHaveLength(0);
-      expect(recipe!.videos).toHaveLength(0);
+      expect(recipe!.videos.length).toBeGreaterThan(0);
     }
   });
 });

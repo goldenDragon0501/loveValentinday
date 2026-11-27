@@ -1,0 +1,13 @@
+{
+  "instructions": "Llena los campos con tu información de contacto. Envía este archivo completado para actualizar el sitio web.",
+  "contact": {
+    "whatsapp": "",
+    "email": "",
+    "instagram": ""
+  },
+  "price": {
+    "amount": 0,
+    "currency": "USD"
+  },
+  "business_name": ""
+}

@@ -190,7 +190,7 @@ export const recipes: Recipe[] = [
   {
     slug: "galletas-de-fresa-y-gotitas-de-chocolate",
     title: "Galletas de fresa y gotitas de chocolate",
-    videos: [],
+    videos: [{ id: "YK6ClZWz-8o", title: "Galletas de fresa y gotitas de chocolate semidulce" }],
     groups: [],
   },
   {
@@ -220,7 +220,7 @@ export const recipes: Recipe[] = [
   {
     slug: "galletas-de-doble-chocolate",
     title: "Galletas de doble chocolate",
-    videos: [],
+    videos: [{ id: "DUUpLyLFqJg", title: "Galletas de doble chocolate" }],
     groups: [],
   },
   {
@@ -236,43 +236,46 @@ export const recipes: Recipe[] = [
     slug: "limonada-de-fresa",
     title: "Limonada de fresa",
     category: "beverage" as const,
-    videos: [],
+    videos: [{ id: "hXNBNKUIKgg", title: "Limonada de fresa" }],
     groups: [],
   },
   {
     slug: "galletas-de-polvo-de-fresas",
     title: "Galletas de polvo de fresas",
-    videos: [],
+    videos: [{ id: "ptVQYJN5_Kg", title: "Galletas de polvo de fresas" }],
     groups: [],
   },
   {
     slug: "bizcocho-de-chocolate-con-harina-swans-down",
     title: "Bizcocho de chocolate con harina Swans Down",
-    videos: [],
+    videos: [{ id: "cYlcqX3dDLE", title: "Bizcocho de chocolate con harina Swans Down" }],
     groups: [],
   },
   {
     slug: "las-mejores-galletas-de-chocolate-chips",
     title: "Las mejores galletas de chocolate chips",
-    videos: [],
+    videos: [{ id: "sN8SIfNnVWI", title: "Las mejores galletas de chocolate chips" }],
     groups: [],
   },
   {
     slug: "frosting-de-chocolate",
     title: "Frosting de chocolate",
-    videos: [],
+    videos: [{ id: "fouVEZJOpI8", title: "Frosting de chocolate" }],
     groups: [],
   },
   {
     slug: "dip-cremoso-de-chocolate",
     title: "Dip cremoso de chocolate 1 y 2",
-    videos: [],
+    videos: [
+      { id: "_wHg43jILGQ", title: "Dip cremoso de chocolate, parte 1" },
+      { id: "7Cv-96ipywE", title: "Dip cremoso de chocolate, parte 2" },
+    ],
     groups: [],
   },
   {
     slug: "galletas-de-oreo-y-chocolate-chips",
     title: "Galletas de Oreo y chocolate chips",
-    videos: [],
+    videos: [{ id: "tHfDnQQ4NJ0", title: "Galletas de Oreo y chocolate chips" }],
     groups: [],
   },
   {
