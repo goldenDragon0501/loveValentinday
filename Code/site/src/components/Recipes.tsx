@@ -84,7 +84,7 @@ export function Recipes() {
           <div className="max-w-3xl">
             <Reveal><Eyebrow icon="whisk">Recetas de Pedro</Eyebrow></Reveal>
             <Reveal as="h2" delay={0.08} className="mt-4 font-display text-[clamp(2.4rem,5.2vw,4.4rem)] font-bold leading-[1.03]">
-              Un adelanto de lo que <span className="font-script font-normal text-water">vas a hornear</span>
+              Dulces recetas <span className="font-script font-normal text-water">en cada corazón</span>
             </Reveal>
             <Reveal as="p" delay={0.16} className="mt-5 text-lg text-muted">
               Algunas de las recetas del calendario, con el paso a paso de Pedro en su canal de YouTube. En tu calendario encontrarás cada receta lista para descargar.

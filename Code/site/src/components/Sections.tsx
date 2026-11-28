@@ -141,7 +141,7 @@ export function Feed() {
   const items = [
     { el: <StoryScreen />, caption: "Pedro te enseña paso a paso en su canal de YouTube: dale play y hornea a su lado.", tags: "#PasoAPaso" },
     { el: <RecipeCard />, caption: "Y cada día, su receta para descargar: ingredientes y pasos listos para imprimir o guardar.", tags: "#RecetaDelDía" },
-    { el: <LoveLetter />, caption: "Postres, bebidas y comidas de temporada, y un plan especial para el 14. Un corazón nuevo cada mañana.", tags: "#14Días" },
+    { el: <LoveLetter />, caption: "Postres y bebidas para el 14. Un corazón nuevo cada mañana.", tags: "#14Días" },
   ];
   return (
     <section id="incluye" className="tex-linen relative bg-blush py-28 sm:py-32">

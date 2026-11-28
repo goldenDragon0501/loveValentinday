@@ -69,10 +69,10 @@ export const schedule: { title: string; kind: DayKind; recipeSlug: string }[] = 
 // "¿Qué encontrarás dentro?" from the demo, now with Pedro's real recipes and his seasonal extras.
 export const categories = [
   { icon: "strawberry", title: "Postres con chocolate", text: "Mini cheesecakes, bizcocho sin harina, cupcakes de chocolate y guineo, galletas de doble chocolate y más." },
-  { icon: "heart-cake", title: "Paso a paso", list: ["Videos en YouTube", "Receta para descargar", "Consejos de Pedro"] },
-  { icon: "piping-bag", title: "Galletas y decoración", text: "Galletas de fresa, de chocolate chips, de Oreo y chocolate chips, con ideas para presentar y regalar." },
+  { icon: "heart-cake", title: "Paso a paso", list: ["Videos en YouTube", "Recetas para descargar", "Consejos de Pedro"] },
+  { icon: "piping-bag", title: "Galletas", text: "Galletas de fresa, de chocolate chips, de Oreo y chocolate chips, con ideas para presentar y regalar." },
   { icon: "hot-cocoa", title: "Bebidas y extras", text: "Limonada de fresa, frosting de chocolate, dip cremoso de chocolate y más para la temporada." },
-  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Super coquito de Nutella para cerrar el calendario con un brindis." },
+  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Super coquito de Nutella." },
 ] as const;
 
 // "Mucho más que videos": only what the calendar really includes.
@@ -108,7 +108,7 @@ export const buyNote = "Cómpralo en cualquier momento del año: no importa cuá
 export const included = [
   "Una receta para descargar cada día, del 1 al 14 de febrero",
   "Videos paso a paso de Pedro en YouTube",
-  "Recetas de postres, bebidas y comidas de temporada",
+  "Recetas de postres y bebidas para el 14",
   "Día 14: cierre especial con una bebida para brindar",
   "Acceso desde cualquier dispositivo",
 ];
@@ -170,7 +170,7 @@ export const recipes: Recipe[] = [
     slug: "bizcocho-de-chocolate-sin-harina",
     title: "Bizcocho de chocolate sin harina",
     videos: [{ id: "aRsS3trRyn4", title: "Bizcocho de chocolate sin harina" }],
-    groups: [{ items: ["1 taza de gotitas de chocolate semidulce (chocolate chips)", "2 barras de mantequilla", "1 taza de cocoa amarga para repostería", "1 ½ tazas de azúcar", "6 huevos"] }],
+    groups: [{ items: ["1 taza de gotitas de chocolate semidulce (chocolate chips)", "2 barras de mantequilla", "1 taza de cocoa amarga para repostería", "1 ½ tazas de azúcar", "6 huevos grandes"] }],
     steps: [
       "Derrite las gotitas de chocolate con la mantequilla. Puedes hacerlo en baño de María o en el microondas durante un minuto o menos. Deja enfriar.",
       "En el envase de la batidora agrega la cocoa con el azúcar y mezcla ligeramente.",
@@ -289,7 +289,7 @@ export const recipes: Recipe[] = [
 // Day 14: beverage video + optional downloadable plan. The plan download is pending client confirmation.
 export const day14Plan = {
   title: "Tu plan para el 14 de febrero",
-  intro: "El cierre especial del calendario: una bebida para brindar y un plan para disfrutar tu San Valentín.",
+  intro: "El cierre especial del calendario: una bebida para brindar en San Valentín.",
   steps: [
     "Prepárate un desayuno para que puedas comenzar bien el día.",
     "Ten listos tus pedidos de antemano. Solo deja para último momento colocar algunos pedidos en cajas, de ser necesario, y sus decoraciones.",
