@@ -29,6 +29,8 @@ export default async function handler(req: Request) {
     return errorResponse("Unauthorized", 401, origin);
   }
 
+  try {
+
   const [
     { count: totalOrders },
     { count: pendingOrders },
@@ -99,4 +101,9 @@ export default async function handler(req: Request) {
     awaitingVerification: awaitingVerification ?? [],
     recentOrders: recentOrders ?? [],
   }, 200, origin);
+
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return errorResponse("Dashboard error: " + msg, 500, origin);
+  }
 }
