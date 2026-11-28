@@ -3,7 +3,6 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { nav } from "@/content/site";
 import { Icon, Logo } from "./Icons";
-import { useShare } from "./Social";
 import { useSound } from "./SoundProvider";
 
 const subscribeTheme = (cb: () => void) => {
@@ -56,8 +55,6 @@ export function Header() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
-  const share = useShare();
-
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > window.innerHeight * 0.6);
     onScroll();
@@ -108,9 +105,6 @@ export function Header() {
         </nav>
 
         <div className={`flex items-center gap-2.5 rounded-full transition ${on ? "" : "xl:bg-surface/90 xl:p-1.5 xl:lift xl:backdrop-blur-md"}`}>
-          <button type="button" onClick={() => share()} aria-label="Compartir" className="btn3d sm icon-only cream">
-            <Icon name="share" className="size-6" />
-          </button>
           <SoundButton />
           <div className={on ? "hidden sm:block" : "hidden xl:block"}><ThemeSwitch /></div>
           <a href="#precio" className={`btn3d sm gold ${on ? "hidden md:inline-flex" : "hidden xl:inline-flex"}`}>

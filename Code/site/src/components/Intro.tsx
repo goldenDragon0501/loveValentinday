@@ -56,7 +56,7 @@ export function Intro() {
             <a href="#calendario" className="btn3d cream lg anim-btn-bounce" style={{ animationDelay: "0.5s" }}><span className="chip"><Icon name="heartFill" /></span>Ver los corazones</a>
           </Reveal>
           <Reveal delay={0.3} className="mt-10 flex flex-wrap gap-3">
-            {[["14", "corazones"], ["8:00", "cada mañana"], ["1", "plan para el 14"]].map(([n, t], i) => (
+            {[["14", "corazones"], ["8:00", "cada mañana"], ["1", "receta especial"]].map(([n, t], i) => (
               <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1.5 lift anim-bob sm:gap-2 sm:px-4 sm:py-2" style={{ "--dur": "4s", "--delay": `${i * 0.4}s` } as React.CSSProperties}>
                 <b className="font-display text-xl text-rose sm:text-2xl">{n}</b>
                 <span className="text-sm font-semibold text-muted sm:text-base">{t}</span>

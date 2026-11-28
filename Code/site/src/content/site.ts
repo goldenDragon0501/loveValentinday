@@ -23,7 +23,7 @@ export const site = {
   contact: {
     whatsapp: null as string | null,
     email: null as string | null,
-    instagram: null as string | null,
+    instagram: "secretos_y_sabores_",
     whatsappMessage: "¡Hola! Me interesa el calendario *14 días de dulce amor* 🗓️💗",
   },
   // TODO(B03): real price. Null shows "muy pronto".
@@ -72,7 +72,7 @@ export const categories = [
   { icon: "heart-cake", title: "Paso a paso", list: ["Videos en YouTube", "Receta para descargar", "Consejos de Pedro"] },
   { icon: "piping-bag", title: "Galletas y decoración", text: "Galletas de fresa, de chocolate chips, de Oreo y chocolate chips, con ideas para presentar y regalar." },
   { icon: "hot-cocoa", title: "Bebidas y extras", text: "Limonada de fresa, frosting de chocolate, dip cremoso de chocolate y más para la temporada." },
-  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Super coquito de Nutella y un plan para disfrutar San Valentín con calma." },
+  { icon: "ganache-drip", title: "Día 14: cierre especial", text: "Super coquito de Nutella para cerrar el calendario con un brindis." },
 ] as const;
 
 // "Mucho más que videos": only what the calendar really includes.
@@ -100,7 +100,6 @@ export const highlights = [
   { icon: "ticket", title: "Reserva", text: "Cómpralo cuando quieras: tu calendario abre el 1 de febrero." },
   { icon: "heart", title: "Abre", text: "Cada mañana a las 8:00 se abre un corazón nuevo, del 1 al 14." },
   { icon: "whisk", title: "Hornea", text: "Descarga la receta y mira el paso a paso en YouTube." },
-  { icon: "share", title: "Comparte", text: "Regala el calendario y enseña tus postres con el hashtag." },
 ] as const;
 
 // The note Pedro asked for in the promotion.
@@ -145,7 +144,7 @@ export const gift = {
 
 // The day-1 preview shows one of Pedro's real recipes before launch.
 export const preview = {
-  note: "Adelanto: una de las recetas del calendario",
+  note: "Una de las recetas del calendario",
   recipe: "bizcocho-de-chocolate-sin-harina",
 };
 

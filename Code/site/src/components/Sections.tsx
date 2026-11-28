@@ -7,7 +7,7 @@ import { useClock } from "./days";
 import { ArchEdge, RibbonEdge, StitchEdge, TornEdge } from "./Edges";
 import { GiftCard } from "./GiftCard";
 import { Icon, LogoMark } from "./Icons";
-import { downloadReminders, LikeButton, ShareRow, useShare, useToast } from "./Social";
+import { downloadReminders, LikeButton, useToast } from "./Social";
 import { SprinkleHeart } from "./SprinkleHeart";
 import { Eyebrow, Reveal, Tilt } from "./ui";
 import { YouTube } from "./YouTube";
@@ -23,9 +23,8 @@ const Tape = ({ className = "" }: { className?: string }) => (
   <span aria-hidden className={`absolute z-10 h-7 w-24 bg-gold-hi/80 shadow-sm [clip-path:polygon(3%_0,97%_4%,100%_100%,0_96%)] ${className}`} />
 );
 
-/** Reactions under each object: like, ask, share and save the dates. */
+/** Reactions under each object: like, ask and save the dates. */
 function ReactionDock({ caption, tags }: { caption: string; tags: string }) {
-  const share = useShare();
   const toast = useToast();
   const [saved, setSaved] = useState(false);
   return (
@@ -33,7 +32,6 @@ function ReactionDock({ caption, tags }: { caption: string; tags: string }) {
       <div className="flex items-center gap-1 rounded-full bg-surface p-1.5 lift">
         <LikeButton />
         <a href="#preguntas" aria-label="Preguntar" className="grid size-12 place-items-center rounded-full text-ink transition hover:bg-surface-2"><Icon name="comment" className="size-7" /></a>
-        <button type="button" onClick={() => share(caption)} aria-label="Compartir" className="grid size-12 place-items-center rounded-full text-ink transition hover:bg-surface-2"><Icon name="share" className="size-7" /></button>
         <button
           type="button"
           aria-pressed={saved}
@@ -159,7 +157,7 @@ export function Feed() {
             <Reveal><Eyebrow icon="heart">Qué incluye</Eyebrow></Reveal>
             <H2>Lo que guarda <span className="font-script font-normal text-water">cada corazón</span></H2>
           </div>
-          <Reveal delay={0.16} as="p" className="max-w-sm text-lg text-muted">Dale ❤ a lo que más te guste, compártelo o guarda las fechas en tu calendario.</Reveal>
+          <Reveal delay={0.16} as="p" className="max-w-sm text-lg text-muted">Dale ❤ a lo que más te guste o guarda las fechas en tu calendario.</Reveal>
         </div>
         <div className="mt-16 grid items-end gap-14 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
           {items.map((it, i) => (
@@ -188,7 +186,7 @@ export function Gift() {
           <Reveal><Eyebrow icon="gift">Regala amor</Eyebrow></Reveal>
           <H2>Envía una <span className="font-script font-normal text-water">postal de amor</span></H2>
           <Reveal delay={0.16} as="p" className="mt-5 text-lg text-muted">
-            Escribe su nombre, elige un mensaje y compártela por WhatsApp o en tus historias. Tiene el tamaño perfecto para el teléfono.
+            Escribe su nombre, elige un mensaje y descárgala. Tiene el tamaño perfecto para el teléfono.
           </Reveal>
         </div>
         <div className="mt-12"><GiftCard /></div>
@@ -199,7 +197,6 @@ export function Gift() {
 
 /* ───────── About: Pedro's pass and story (the demo's "Hecho con el corazón de Puerto Rico") ───────── */
 export function About() {
-  const share = useShare();
   return (
     <section id="sobre" className="relative bg-surface-2 py-24 sm:py-28 overflow-hidden">
       <ArchEdge color="var(--c-surface-2)" />
@@ -243,9 +240,6 @@ export function About() {
                       <span className="chip"><Icon name="youtube" /></span>Ver su canal
                     </a>
                   )}
-                  <button type="button" onClick={() => share()} className="btn3d cream">
-                    <span className="chip"><Icon name="share" /></span>Compartir
-                  </button>
                 </div>
               </div>
             </article>
@@ -272,7 +266,6 @@ export function About() {
 
 /* ───────── Testimonials (the demo's "Lo que dicen nuestras alumnas"): only real reviews, never samples ───────── */
 function Testimonials() {
-  const share = useShare();
   const hearts = (
     <span className="flex gap-1 text-gold" aria-hidden>
       {Array.from({ length: 5 }, (_, i) => <Icon key={i} name="heartFill" className="size-6" />)}
@@ -304,9 +297,6 @@ function Testimonials() {
           {hearts}
           <p className="font-display text-2xl font-bold leading-snug">Aquí estarán las opiniones de quienes hornean con el calendario.</p>
           <p className="text-lg text-muted">Cuando prepares tu primera receta, cuéntanos cómo te fue con <b className="text-rose-ink">{site.hashtag}</b>.</p>
-          <button type="button" onClick={() => share()} className="btn3d cream mt-2">
-            <span className="chip"><Icon name="share" /></span>Invitar a alguien
-          </button>
         </Reveal>
       )}
     </div>
@@ -359,7 +349,6 @@ export function Community() {
               >
                 <span className="chip"><Icon name="hash" /></span>Copiar hashtag
               </button>
-              <ShareRow />
             </div>
           </Reveal>
 

@@ -8,7 +8,7 @@ import { HeartRing } from "./HeartRing";
 import { HeartStory } from "./HeartStory";
 import { Icon, LogoMark } from "./Icons";
 import { Icon3D } from "./Assets";
-import { burst, downloadReminders, ShareRow, useShare, useToast } from "./Social";
+import { burst, downloadReminders, useToast } from "./Social";
 import { useSound } from "./SoundProvider";
 import { Eyebrow, Reveal, useReducedMotion } from "./ui";
 import { YouTube } from "./YouTube";
@@ -130,8 +130,7 @@ function StoryViewer({ day, state, onClose }: { day: number; state: State; onClo
           ) : (
             <div className="grid h-full content-center justify-items-center gap-6 text-center" style={{ animation: "pop-in .5s var(--ease-soft)" }}>
               <p className="font-script text-6xl text-white">¿Te gustó?</p>
-              <p className="max-w-xs text-lg text-white/95">Comparte el calendario con quien quieres endulzar este San Valentín.</p>
-              <ShareRow className="justify-center" />
+              <p className="max-w-xs text-lg text-white/95">Descubre las 14 recetas de Pedro para endulzar este San Valentín.</p>
               <a href="#precio" onClick={() => ref.current?.close()} className="btn3d gold">
                 <span className="chip"><Icon name="gift" /></span>Quiero mi calendario
               </a>
@@ -177,7 +176,6 @@ export function Stories() {
   const reduced = useReducedMotion();
   const { chime } = useSound();
   const toast = useToast();
-  const share = useShare();
   const strip = useRef<HTMLDivElement>(null);
   const [opening, setOpening] = useState<number | null>(null);
   const [viewing, setViewing] = useState<number | null>(null);
@@ -247,9 +245,6 @@ export function Stories() {
               <button type="button" onClick={downloadReminders} className="btn3d cream sm">
                 <span className="chip"><Icon name="bell" /></span>Recordármelo
               </button>
-              <button type="button" onClick={() => share()} className="btn3d sm">
-                <span className="chip"><Icon name="share" /></span>Compartir
-              </button>
             </div>
           </div>
 
@@ -293,7 +288,7 @@ export function Stories() {
         {/* Highlights: how it works */}
         <div className="mt-14">
           <Reveal as="h3" className="text-center font-display text-3xl font-bold heading-shine sm:text-4xl">Así funciona</Reveal>
-          <ul className="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-4">
+          <ul className="mt-8 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-3">
             {highlights.map((h, i) => (
               <Reveal as="li" key={h.title} variant="zoom" delay={0.08 * i} className="flex flex-col items-center text-center">
                 <span className="story size-28 sm:size-32" style={{ animation: `step-float 5s ease-in-out ${i * 0.5}s infinite` }}>

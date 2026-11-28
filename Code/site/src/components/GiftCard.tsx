@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { gift, site } from "@/content/site";
 import { Icon3D } from "./Assets";
 import { Icon } from "./Icons";
-import { pageUrl, useToast } from "./Social";
+import { useToast } from "./Social";
 
 // Love-card maker. The card is drawn on a canvas at phone-story size (1080×1920) on the approved
 // portrait cover, with the message set inside its glowing heart, ready to download or share.
@@ -146,23 +146,6 @@ export function GiftCard() {
     window.setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     toast("Tarjeta descargada");
   };
-  const share = async () => {
-    const b = await blob();
-    if (!b) return;
-    const file = new File([b], "tarjeta-san-valentin.png", { type: "image/png" });
-    const text = `${msg} 💗 ${site.hashtag}`;
-    try {
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], text, url: pageUrl() });
-        return;
-      }
-    } catch (e) {
-      if ((e as DOMException)?.name === "AbortError") return;
-    }
-    await download();
-    window.open(`https://wa.me/?text=${encodeURIComponent(`${text} ${pageUrl()}`)}`, "_blank", "noopener,noreferrer");
-  };
-
   const line = "w-full border-0 border-b-2 border-dashed border-rose/40 bg-transparent px-1 pb-1 pt-2 font-display text-2xl font-bold italic text-ink outline-none transition placeholder:font-normal placeholder:text-muted/50 focus:border-solid focus:border-rose";
 
   return (
@@ -230,10 +213,7 @@ export function GiftCard() {
               </button>
             ))}
           </fieldset>
-          <button type="button" onClick={share} className="btn3d gold">
-            <span className="chip"><Icon name="share" /></span>Compartir postal
-          </button>
-          <button type="button" onClick={download} className="btn3d cream">
+          <button type="button" onClick={download} className="btn3d gold">
             <span className="chip"><Icon name="download" /></span>Descargar
           </button>
         </div>
