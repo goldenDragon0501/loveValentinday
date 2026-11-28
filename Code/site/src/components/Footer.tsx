@@ -1,7 +1,6 @@
 import { channel, nav, site } from "@/content/site";
 import { FrostingEdge } from "./Edges";
 import { Icon, Logo } from "./Icons";
-import { ShareRow } from "./Social";
 
 const credits = [
   { what: "Videos y fotos de las recetas", who: channel.name, license: "YouTube", href: channel.url },
@@ -25,7 +24,6 @@ export function Footer() {
               <span className="chip"><Icon name="youtube" /></span>
               <span className="max-sm:hidden">{channel.name} en </span>YouTube
             </a>
-            <ShareRow />
           </div>
         </div>
 
