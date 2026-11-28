@@ -61,7 +61,7 @@ export const schedule: { title: string; kind: DayKind; recipeSlug: string }[] = 
   { title: "Bizcocho de chocolate con harina Swans Down", kind: "recipe", recipeSlug: "bizcocho-de-chocolate-con-harina-swans-down" },
   { title: "Las mejores galletas de chocolate chips", kind: "recipe", recipeSlug: "las-mejores-galletas-de-chocolate-chips" },
   { title: "Frosting de chocolate", kind: "recipe", recipeSlug: "frosting-de-chocolate" },
-  { title: "Dip cremoso de chocolate 1 y 2", kind: "recipe", recipeSlug: "dip-cremoso-de-chocolate" },
+  { title: "Dip cremoso de chocolate", kind: "recipe", recipeSlug: "dip-cremoso-de-chocolate" },
   { title: "Galletas de Oreo y chocolate chips", kind: "recipe", recipeSlug: "galletas-de-oreo-y-chocolate-chips" },
   { title: "Super coquito de Nutella", kind: "special", recipeSlug: "super-coquito-de-nutella" },
 ];
@@ -264,7 +264,7 @@ export const recipes: Recipe[] = [
   },
   {
     slug: "dip-cremoso-de-chocolate",
-    title: "Dip cremoso de chocolate 1 y 2",
+    title: "Dip cremoso de chocolate",
     videos: [
       { id: "_wHg43jILGQ", title: "Dip cremoso de chocolate, parte 1" },
       { id: "7Cv-96ipywE", title: "Dip cremoso de chocolate, parte 2" },

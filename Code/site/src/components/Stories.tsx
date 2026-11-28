@@ -129,7 +129,7 @@ function StoryViewer({ day, state, onClose }: { day: number; state: State; onClo
             </div>
           ) : (
             <div className="grid h-full content-center justify-items-center gap-6 text-center" style={{ animation: "pop-in .5s var(--ease-soft)" }}>
-              <p className="font-script text-6xl text-white">¿Te gustó?</p>
+              <p className="font-script text-6xl text-white">¿Te encantó?</p>
               <p className="max-w-xs text-lg text-white/95">Descubre las 14 recetas de Pedro para endulzar este San Valentín.</p>
               <a href="#precio" onClick={() => ref.current?.close()} className="btn3d gold">
                 <span className="chip"><Icon name="gift" /></span>Quiero mi calendario
