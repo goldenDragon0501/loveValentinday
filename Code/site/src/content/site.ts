@@ -21,21 +21,18 @@ export const site = {
   checkoutUrl: "/comprar/" as string | null,
   buyerAreaUrl: "/calendario/" as string | null,
   contact: {
-    whatsapp: null as string | null,
+    whatsapp: "+15515569160",
     email: null as string | null,
     instagram: "secretos_y_sabores_",
     whatsappMessage: "¡Hola! Me interesa el calendario *14 días de dulce amor* 🗓️💗",
   },
-  // TODO(B03): real price. Null shows "muy pronto".
-  price: null as null | { amount: number; regular?: number; currency: string },
+  price: { amount: 12, currency: "USD" } as null | { amount: number; regular?: number; currency: string },
 };
 
 export const nav = [
   { href: "#calendario", label: "Calendario" },
   { href: "#ruta", label: "Ruta" },
   { href: "#recetas", label: "Recetas" },
-  { href: "#regala", label: "Regala" },
-  { href: "#comunidad", label: "Comunidad" },
   { href: "#precio", label: "Precio" },
   { href: "#preguntas", label: "Preguntas" },
 ];

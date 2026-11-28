@@ -6,7 +6,7 @@ import { Inside } from "@/components/Inside";
 import { Intro } from "@/components/Intro";
 import { Recipes } from "@/components/Recipes";
 import { Route } from "@/components/Route";
-import { About, Closing, Community, Faq, Feed, Gift, Offer } from "@/components/Sections";
+import { About, Closing, Faq, Feed, Offer } from "@/components/Sections";
 import { ToastProvider } from "@/components/Social";
 import { Stories } from "@/components/Stories";
 
@@ -25,9 +25,7 @@ export default function Home() {
         <Recipes />
         <Feed />
         <Inside />
-        <Gift />
         <About />
-        <Community />
         <Offer />
         <Faq />
         <Closing />

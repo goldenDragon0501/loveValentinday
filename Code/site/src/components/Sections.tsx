@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { buyNote, closing, dayDate, faqs, included, profile, site, testimonials } from "@/content/site";
+import { buyNote, closing, dayDate, faqs, included, profile, site } from "@/content/site";
 import { AssetImage, Icon3D } from "./Assets";
 import { useClock } from "./days";
 import { ArchEdge, RibbonEdge, StitchEdge, TornEdge } from "./Edges";
-import { GiftCard } from "./GiftCard";
 import { Icon, LogoMark } from "./Icons";
 import { downloadReminders, LikeButton, useToast } from "./Social";
 import { SprinkleHeart } from "./SprinkleHeart";
@@ -172,29 +171,6 @@ export function Feed() {
   );
 }
 
-/* ───────── Gift ───────── */
-export function Gift() {
-  return (
-    <section id="regala" className="tex-paper relative bg-bg py-24 sm:py-28">
-      <TornEdge color="var(--c-bg)" />
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <span className="absolute right-[3%] top-[15%] text-5xl opacity-10 anim-drift" style={{ "--dur": "10s" } as React.CSSProperties}>💌</span>
-        <span className="absolute left-[6%] bottom-[18%] text-4xl opacity-12 anim-float" style={{ "--dur": "8s", "--delay": "1.5s" } as React.CSSProperties}>💗</span>
-      </div>
-      <div className="mx-auto max-w-7xl px-5">
-        <div className="max-w-3xl">
-          <Reveal><Eyebrow icon="gift">Regala amor</Eyebrow></Reveal>
-          <H2>Envía una <span className="font-script font-normal text-water">postal de amor</span></H2>
-          <Reveal delay={0.16} as="p" className="mt-5 text-lg text-muted">
-            Escribe su nombre, elige un mensaje y descárgala. Tiene el tamaño perfecto para el teléfono.
-          </Reveal>
-        </div>
-        <div className="mt-12"><GiftCard /></div>
-      </div>
-    </section>
-  );
-}
-
 /* ───────── About: Pedro's pass and story (the demo's "Hecho con el corazón de Puerto Rico") ───────── */
 export function About() {
   return (
@@ -259,125 +235,6 @@ export function About() {
             ))}
           </Reveal>
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── Testimonials (the demo's "Lo que dicen nuestras alumnas"): only real reviews, never samples ───────── */
-function Testimonials() {
-  const hearts = (
-    <span className="flex gap-1 text-gold" aria-hidden>
-      {Array.from({ length: 5 }, (_, i) => <Icon key={i} name="heartFill" className="size-6" />)}
-    </span>
-  );
-  return (
-    <div className="mt-24">
-      <div className="text-center">
-        <Reveal><Eyebrow icon="comment" className="justify-center">Opiniones</Eyebrow></Reveal>
-        <Reveal as="h3" delay={0.08} className="mt-4 font-display text-[clamp(2rem,4vw,3.2rem)] font-bold leading-tight">
-          Lo que dicen nuestras <span className="font-script font-normal text-water">alumnas</span>
-        </Reveal>
-      </div>
-      {testimonials.length ? (
-        <ul className="mt-12 grid gap-8 md:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <Reveal as="li" key={t.name} variant="zoom" delay={0.08 * i}>
-              <figure className="relative h-full rounded-[28px] bg-surface p-7 lift" style={{ rotate: `${[-1.5, 1, -0.5][i % 3]}deg` }}>
-                <Tape className="-top-3 left-1/2 -translate-x-1/2" />
-                {hearts}
-                <blockquote className="mt-4 font-display text-xl leading-snug">“{t.quote}”</blockquote>
-                <figcaption className="mt-4 font-bold text-rose-ink">{t.name} · <span className="font-semibold text-muted">{t.place}</span></figcaption>
-              </figure>
-            </Reveal>
-          ))}
-        </ul>
-      ) : (
-        <Reveal className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-4 rounded-[32px] border-[3px] border-dashed border-rose/40 bg-surface p-8 text-center lift">
-          {hearts}
-          <p className="font-display text-2xl font-bold leading-snug">Aquí estarán las opiniones de quienes hornean con el calendario.</p>
-          <p className="text-lg text-muted">Cuando prepares tu primera receta, cuéntanos cómo te fue con <b className="text-rose-ink">{site.hashtag}</b>.</p>
-        </Reveal>
-      )}
-    </div>
-  );
-}
-
-/* ───────── Community: hashtag sticker, polaroids and reviews ───────── */
-export function Community() {
-  const toast = useToast();
-  // Pedro's own desserts, from his YouTube videos.
-  const frames = [
-    { id: "YE1RcmFqKHE", name: "Mini cheesecakes", alt: "Mini cheesecakes de chocolate con fresas" },
-    { id: "iZ64emSEu9s", name: "Mantequilla de chocolate", alt: "Mantequilla de chocolate con fresas y galletas" },
-    { id: "cUZJk2Yl_V4", name: "Cupcakes decorados", alt: "Cupcakes de chocolate y guineo decorados" },
-  ];
-  return (
-    <section id="comunidad" className="tex-paper relative bg-bg py-24 sm:py-28">
-      <TornEdge color="var(--c-bg)" seed={11} />
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <span className="absolute right-[4%] top-[8%] text-5xl opacity-10 anim-float" style={{ "--dur": "10s" } as React.CSSProperties}>📸</span>
-        <span className="absolute -left-4 top-[40%] text-4xl opacity-12 anim-drift" style={{ "--dur": "9s", "--delay": "1s" } as React.CSSProperties}>❤️</span>
-        <span className="absolute right-[7%] bottom-[15%] text-3xl opacity-15 anim-sway" style={{ "--dur": "7s", "--delay": "2.5s" } as React.CSSProperties}>🍓</span>
-      </div>
-      <div className="mx-auto max-w-7xl px-5">
-        <div className="text-center">
-          <Reveal><Eyebrow icon="camera" className="justify-center">Comunidad</Eyebrow></Reveal>
-          <H2>Horneamos <span className="font-script font-normal text-water">juntos</span></H2>
-        </div>
-        <div className="mt-16 grid grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-          {/* Hashtag sticker */}
-          <Reveal className="sticker tex-satin bg-rose p-7 text-white lift sm:p-10" style={{ rotate: "-1.2deg" }}>
-            <p className="flex items-center gap-3 text-sm font-extrabold uppercase tracking-[0.2em] text-white"><Icon3D name="hashtag" className="size-10 drop" />Tu hashtag</p>
-            <p className="mt-3 font-display text-[clamp(2rem,4.6vw,3.6rem)] font-extrabold leading-tight text-white [text-shadow:0_3px_0_var(--c-rose-ink)]">
-              {/* Line breaks only between the words of the hashtag, never inside one. */}
-              {site.hashtag.split(/(?<=[a-z])(?=[A-Z0-9])/).map((w, i) => (i ? [<wbr key={i} />, w] : w))}
-            </p>
-            <p className="mt-3 max-w-xl text-lg text-white/95">Cuando prepares tus recetas, toma una foto y publícala con el hashtag para encontrar a quienes hornean contigo.</p>
-            <div className="mt-7 flex flex-wrap gap-3 pr-16">
-              <button
-                type="button"
-                onClick={async () => {
-                  try {
-                    await navigator.clipboard.writeText(site.hashtag);
-                    toast("Hashtag copiado");
-                  } catch {
-                    toast("No se pudo copiar");
-                  }
-                }}
-                className="btn3d gold"
-              >
-                <span className="chip"><Icon name="hash" /></span>Copiar hashtag
-              </button>
-            </div>
-          </Reveal>
-
-          {/* Polaroids */}
-          <ul className="grid grid-cols-1 gap-6 min-[480px]:grid-cols-2">
-            {frames.map((f, i) => (
-              <Reveal as="li" key={f.id} variant="zoom" delay={0.08 * i} className="relative">
-                <Tape className="-top-3 left-1/2 -translate-x-1/2" />
-                <a href={`https://youtu.be/${f.id}`} target="_blank" rel="noopener noreferrer" aria-label={`${f.name}: ver el video en YouTube`} className="block">
-                <figure className="rounded-[8px] bg-white p-2.5 pb-3 shadow-[0_18px_30px_-14px_rgb(var(--shadow-rgb)/0.5)] transition duration-500 hover:rotate-0 hover:scale-105" style={{ rotate: `${[-4, 3, -2][i]}deg` }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element -- static export, no image optimizer */}
-                  <img src={`https://i.ytimg.com/vi/${f.id}/maxresdefault.jpg`} alt={f.alt} loading="lazy" className="aspect-square w-full rounded-[4px] object-cover" />
-                  <figcaption className="mt-2 text-center font-script text-2xl leading-none text-rose">{f.name}</figcaption>
-                </figure>
-                </a>
-              </Reveal>
-            ))}
-            <Reveal as="li" variant="zoom" delay={0.24} className="relative">
-              <Tape className="-top-3 left-1/2 -translate-x-1/2 rotate-6" />
-              <div className="grid aspect-[0.86] place-items-center rounded-[8px] border-[3px] border-dashed border-rose/50 bg-surface p-3 text-center text-rose-ink" style={{ rotate: "4deg" }}>
-                <div>
-                  <Icon3D name="camera" className="mx-auto size-16" />
-                  <p className="mt-2 font-bold leading-tight">Tu foto aquí</p>
-                </div>
-              </div>
-            </Reveal>
-          </ul>
-        </div>
-        <Testimonials />
       </div>
     </section>
   );
@@ -452,7 +309,6 @@ export function Offer() {
                       ) : (
                         <span className="btn3d gold lg" aria-disabled="true"><span className="chip"><Icon name="calendar" /></span>Próximamente</span>
                       )}
-                      <a href="#regala" className="btn3d cream lg anim-btn-bounce" style={{ animationDelay: "0.5s" }}><span className="chip"><Icon name="gift" /></span>Regálalo</a>
                     </div>
                   </div>
                 </div>
