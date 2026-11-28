@@ -120,7 +120,7 @@ export const faqs = [
   { q: "¿Dónde veo los videos?", a: "En el canal de YouTube de Pedro, Sabores y Secretos PR. Cada corazón te lleva directo al video del día." },
   { q: "¿Puedo descargar las recetas?", a: "¡Sí! Cada receta se descarga para que la imprimas o la guardes en tu teléfono." },
   { q: "¿Qué pasa si compro después del 1 de febrero?", a: "Encontrarás abiertos todos los corazones de los días que ya pasaron, listos para ver." },
-  { q: "¿Puedo regalarlo?", a: "Claro. Crea una tarjeta de amor en la sección «Regala» y compártela con quien quieras." },
+  { q: "¿Puedo regalarlo?", a: "Sí. Compra el calendario y recibes un enlace personal que puedes enviar a quien quieras como regalo." },
   { q: "¿Qué hay el día 14?", a: "El cierre especial del calendario: una bebida para brindar en San Valentín, con su video paso a paso de Pedro." },
 ];
 

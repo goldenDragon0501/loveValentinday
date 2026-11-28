@@ -229,7 +229,7 @@ export function About() {
                   {[["14", "corazones"], ["1–14", "febrero"], ["8:00", "cada mañana"]].map(([n, l]) => (
                     <div key={l}>
                       <dt className="sr-only">{l}</dt>
-                      <dd className="font-display text-2xl font-extrabold text-rose sm:text-3xl">{n}</dd>
+                      <dd className="font-display text-2xl font-extrabold text-rose sm:text-3xl" style={{ fontVariantNumeric: "tabular-nums" }}>{n}</dd>
                       <dd className="text-xs font-semibold text-muted sm:text-sm">{l}</dd>
                     </div>
                   ))}
@@ -333,7 +333,7 @@ export function Community() {
               {/* Line breaks only between the words of the hashtag, never inside one. */}
               {site.hashtag.split(/(?<=[a-z])(?=[A-Z0-9])/).map((w, i) => (i ? [<wbr key={i} />, w] : w))}
             </p>
-            <p className="mt-3 max-w-xl text-lg text-white/95">Cuando prepares tus recetas, toma una foto y compártela con el hashtag para encontrar a quienes hornean contigo.</p>
+            <p className="mt-3 max-w-xl text-lg text-white/95">Cuando prepares tus recetas, toma una foto y publícala con el hashtag para encontrar a quienes hornean contigo.</p>
             <div className="mt-7 flex flex-wrap gap-3 pr-16">
               <button
                 type="button"
